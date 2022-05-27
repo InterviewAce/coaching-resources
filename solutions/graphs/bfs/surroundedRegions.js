@@ -51,16 +51,11 @@ const markEscaped = (row, col, board) => {
   const queue = new Queue();
   queue.enqueue([row, col]);
 
-  const visited = new Set();
-
   while (queue.size() > 0) {
     const [row, col] = queue.dequeue();
 
     if (!isValidPosition(row, col, board)) continue;
     if (board[row][col] != 'O') continue;
-    if (visited.has([row, col])) continue;
-
-    visited.add([row, col]);
 
     board[row][col] = 'E';
 
