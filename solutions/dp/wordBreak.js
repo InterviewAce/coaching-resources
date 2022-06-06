@@ -1,6 +1,15 @@
 /*
 TOP-DOWN DP SOLUTION
 */
+
+/**
+ * Reduces a sequence of names to initials.
+ * @param  {String} s a string containing potential words
+ * @param  {Set} wordSet a set containing all valid words
+ * @param  {Number} start an index in s indicating where to start
+ * @param  {Object} cache cache Object
+ * @return {Boolean} whether or not the string can be broken up into words
+ */
 const wordBreakHelper = (s, wordSet, start, cache) => {
     if (cache.has(start)) return false;
     if (start === s.length) return true;
@@ -39,6 +48,6 @@ const wordBreak = (s, wordDict) => {
             }
         }
     }
-    
+
     return cache[s.length];
 };

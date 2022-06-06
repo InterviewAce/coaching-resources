@@ -50,13 +50,13 @@ const climbStairs = (n) => {
 
   let oneStepBack = 2;
   let twoStepsBack = 1;
-  let totalWays = 0;
+  let totalWaysToReachI = 0;
 
   for (let i = 2; i < n; i++) {
-    totalWays = oneStepBack + twoStepsBack;
+    totalWaysToReachI = oneStepBack + twoStepsBack;
     twoStepsBack = oneStepBack;
-    oneStepBack = totalWays;
+    oneStepBack = totalWaysToReachI;
   }
-  
-  return totalWays;
+
+  return totalWaysToReachI;
 };

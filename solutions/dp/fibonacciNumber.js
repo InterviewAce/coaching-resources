@@ -55,15 +55,15 @@ BETTER BOTTOM-UP DP SOLUTION
 const fib = (n) => {
   if (n <= 1) return n;
 
-  let fib = 0;
+  let curFib = 0;
   let lastFib = 1;
   let lastLastFib = 0;
 
   for (let i = 2; i <= n; i++) {
-    fib = lastFib + lastLastFib;
+    curFib = lastFib + lastLastFib;
     lastLastFib = lastFib;
-    lastFib = fib;
+    lastFib = curFib;
   }
   
-  return fib;
+  return curFib;
 };
