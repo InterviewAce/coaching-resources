@@ -41,3 +41,22 @@ const climbStairs = (n) => {
 
   return cache[n];
 };
+
+/*
+BETTER BOTTOM-UP DP SOLUTION
+*/
+const climbStairs = (n) => {
+  if (n <= 2) return n;
+
+  let oneStepBack = 2;
+  let twoStepsBack = 1;
+  let totalWays = 0;
+
+  for (let i = 2; i < n; i++) {
+    totalWays = oneStepBack + twoStepsBack;
+    twoStepsBack = oneStepBack;
+    oneStepBack = totalWays;
+  }
+  
+  return totalWays;
+};
