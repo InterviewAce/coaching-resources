@@ -57,11 +57,11 @@ const fib = (n) => {
 
   let fib = 0;
   let lastFib = 1;
-  let lastlastFib = 0;
+  let lastLastFib = 0;
 
   for (let i = 2; i <= n; i++) {
-    fib = lastFib + lastlastFib;
-    lastlastFib = lastFib;
+    fib = lastFib + lastLastFib;
+    lastLastFib = lastFib;
     lastFib = fib;
   }
   
