@@ -46,13 +46,13 @@ const climbStairs = (n) => {
 BETTER BOTTOM-UP DP SOLUTION
 */
 const climbStairs = (n) => {
-  if (n <= 2) return n;
+  if (n <= 1) return 1;
 
-  let oneStepBack = 2;
-  let twoStepsBack = 1;
   let totalWaysToReachI = 0;
+  let oneStepBack = 1;
+  let twoStepsBack = 1;
 
-  for (let i = 2; i < n; i++) {
+  for (let i = 2; i <= n; i++) {
     totalWaysToReachI = oneStepBack + twoStepsBack;
     twoStepsBack = oneStepBack;
     oneStepBack = totalWaysToReachI;
