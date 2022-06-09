@@ -1,3 +1,6 @@
+/*
+Keep track of current min and current max at each index. Use current max to keep track of overall max.
+*/
 const maxProduct = (nums) => {
     let max = -Infinity;
     let currentMax = 1;

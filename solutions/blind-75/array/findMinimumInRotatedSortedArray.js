@@ -1,3 +1,6 @@
+/*
+binary search for point when the array decreases
+*/
 const findMin = (nums) => {
     let leftIdx = 0;
     let rightIdx = nums.length - 1;
