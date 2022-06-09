@@ -6,12 +6,12 @@ const findMin = (nums) => {
     let rightIdx = nums.length - 1;
   
     while (leftIdx < rightIdx) {
-        let mid = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
+        let midIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
 
-        if (nums[mid] > nums[rightIdx]) {
-            leftIdx = mid + 1;
+        if (nums[midIdx] > nums[rightIdx]) {
+            leftIdx = midIdx + 1;
         } else {
-            rightIdx = mid;
+            rightIdx = midIdx;
         }
     }
     
