@@ -48,3 +48,22 @@ const fib = (n) => {
 
   return cache[n];
 };
+
+/*
+BETTER BOTTOM-UP DP SOLUTION
+*/
+const fib = (n) => {
+  if (n <= 1) return n;
+
+  let curFib = 0;
+  let lastFib = 1;
+  let lastLastFib = 0;
+
+  for (let i = 2; i <= n; i++) {
+    curFib = lastFib + lastLastFib;
+    lastLastFib = lastFib;
+    lastFib = curFib;
+  }
+  
+  return curFib;
+};
