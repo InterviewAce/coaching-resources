@@ -2,8 +2,7 @@
 BOTTOM-UP DP SOLUTION
 */
 const numSquares = (n) => {
-    const cache = new Array(n + 1);
-    cache.fill(Infinity);
+    const cache = new Array(n + 1).fill(Infinity);
     cache[0] = 0;
 
     for (let target = 1; target <= n; target++) {

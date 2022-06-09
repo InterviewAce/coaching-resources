@@ -43,7 +43,7 @@ const wordBreak = (s, wordDict) => {
     for (let end = 1; end <= s.length; end++) {
         for (let start = 0; start < end; start++) {
             const w = s.slice(start, end);
-            if (cache[start] === true && wordSet.has(w)) {
+            if (cache[start] && wordSet.has(w)) {
                 cache[end] = true;
             }
         }
