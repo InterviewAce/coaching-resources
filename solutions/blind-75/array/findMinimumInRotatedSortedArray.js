@@ -6,7 +6,7 @@ const findMin = (nums) => {
     let rightIdx = nums.length - 1;
   
     while (leftIdx < rightIdx) {
-        let midIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
+        const midIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
 
         if (nums[midIdx] > nums[rightIdx]) {
             leftIdx = midIdx + 1;
