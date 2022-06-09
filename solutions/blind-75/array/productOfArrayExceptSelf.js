@@ -1,3 +1,6 @@
+/*
+First find products from beginning to index. Then find products from end to index. Multiply these together to get products except self.
+*/
 const productExceptSelf = (nums) => {
     const result = [];
     
