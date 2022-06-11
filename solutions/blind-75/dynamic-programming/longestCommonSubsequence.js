@@ -6,7 +6,7 @@ var longestCommonSubsequence = function(text1, text2) {
 function combinationSumHelper(textOne, textTwo, indexOne, indexTwo, cache) {
     if (indexOne < 0 || indexTwo < 0) return 0;
     
-    const key = indexOne + '#' + indexTwo;
+    const key = indexOne + ' ' + indexTwo;
     
     if (key in cache) return cache[key];
     
