@@ -15,9 +15,12 @@ function combinationSumHelper(textOne, textTwo, indexOne, indexTwo, cache) {
     if (textOne.charAt(indexOne) === textTwo.charAt(indexTwo)) {
         result = combinationSumHelper(textOne, textTwo, indexOne - 1, indexTwo - 1, cache) + 1;
     } else {
-        result = Math.max(combinationSumHelper(textOne, textTwo, indexOne, indexTwo - 1, cache), combinationSumHelper(textOne, textTwo, indexOne - 1, indexTwo, cache));
+        result = Math.max(
+            combinationSumHelper(textOne, textTwo, indexOne, indexTwo - 1, cache), 
+            combinationSumHelper(textOne, textTwo, indexOne - 1, indexTwo, cache)
+        );
     }
     
     cache[key] = result;
     return result;
-}
+};
