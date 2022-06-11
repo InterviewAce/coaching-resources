@@ -67,6 +67,7 @@ const alienOrder = (words) => {
     const charOrder = constructCharOrder(graph, charToDegree);
 
     const numberOfKeysInGraph = Object.keys(graph).length;
-    if (charOrder.length != numberOfKeysInGraph) return '';
+    const doesNotContainAllCharacters = charOrder.length != numberOfKeysInGraph;
+    if (doesNotContainAllCharacters) return '';
     return charOrder
 };
