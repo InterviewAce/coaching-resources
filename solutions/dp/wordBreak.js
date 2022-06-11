@@ -36,8 +36,7 @@ BOTTOM-UP DP SOLUTION
 */
 const wordBreak = (s, wordDict) => {
     const wordSet = new Set(wordDict);
-    const cache = new Array(s.length + 1);
-    cache.fill(false);
+    const cache = new Array(s.length + 1).fill(false);
     cache[0] = true;
 
     for (let end = 1; end <= s.length; end++) {
