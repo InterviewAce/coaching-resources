@@ -1,34 +1,61 @@
-const isStillPalindrome = (leftIdx, rightIdx, string) => {
-    if (leftIdx < 0) return false;
-    if (rightIdx >= string.length) return false;
-    if (string[leftIdx] != string[rightIdx]) return false;
+const isStillValidPalindrome = (string, leftIdx, rightIdx) => {
+  if (leftIdx < 0) return false;
+  if (rightIdx >= string.length) return false;
 
-    return true;
+  return string[leftIdx] === string[rightIdx];
 };
 
-const getLongestPalindromeCenteredAt = (leftIdx, rightIdx, string) => {
-    let palindrome = '';
+const getLongestPalindromeCenteredAt = (
+  string,
+  leftIdxStart,
+  rightIdxStart,
+) => {
+  let leftIdx = leftIdxStart;
+  let rightIdx = rightIdxStart;
 
-    while (isStillPalindrome(leftIdx, rightIdx, string)) {
-        palindrome = string.substring(leftIdx, rightIdx + 1);
-        leftIdx--;
-        rightIdx++;
-    }
+  while (isStillValidPalindrome(string, leftIdx, rightIdx)) {
+    leftIdx--;
+    rightIdx++;
+  }
 
-    return palindrome;
+  const longestPalindromeLeftIdx = leftIdx + 1;
+  const longestPalindromeRightIdx = rightIdx - 1;
+  return [longestPalindromeLeftIdx, longestPalindromeRightIdx];
 };
 
-const longestPalindrome = (string) => {
-    let longestPalindromicSubstring = '';
+const longestPalindrome = (s) => {
+  if (s.length === 0) return '';
 
-    for (let i = 0; i < string.length; i++) {
-        const oddLengthPalindrome = getLongestPalindromeCenteredAt(i, i, string);
-        const evenLengthPalindrome = getLongestPalindromeCenteredAt(i, i + 1, string);
+  let longestPalindromeStart = 0;
+  let longestPalindromeEnd = 0;
 
-        let currentLongestPalindrome = oddLengthPalindrome;
-        if (evenLengthPalindrome.length > oddLengthPalindrome.length) currentLongestPalindrome = evenLengthPalindrome;
-        if (currentLongestPalindrome.length > longestPalindromicSubstring.length) longestPalindromicSubstring = currentLongestPalindrome;
+  for (let i = 0; i < s.length; i++) {
+    const oddPalindromeIndices = getLongestPalindromeCenteredAt(s, i, i);
+    const evenPalindromeIndices = getLongestPalindromeCenteredAt(s, i, i + 1);
+
+    const [oddStart, oddEnd] = oddPalindromeIndices;
+    const [evenStart, evenEnd] = evenPalindromeIndices;
+
+    const oddLength = oddEnd - oddStart + 1;
+    const evenLength = evenEnd - evenStart + 1;
+
+    const curLongestPalindromeLength =
+      longestPalindromeEnd - longestPalindromeStart + 1;
+
+    if (oddLength > curLongestPalindromeLength) {
+      longestPalindromeStart = oddStart;
+      longestPalindromeEnd = oddEnd;
     }
 
-    return longestPalindromicSubstring;
+    if (evenLength > curLongestPalindromeLength) {
+      longestPalindromeStart = evenStart;
+      longestPalindromeEnd = evenEnd;
+    }
+  }
+
+  const longestPalindromicSubstring = s.substring(
+    longestPalindromeStart,
+    longestPalindromeEnd + 1,
+  );
+  return longestPalindromicSubstring;
 };
