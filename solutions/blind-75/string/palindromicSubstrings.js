@@ -25,14 +25,14 @@ const numberOfPalindromesCenteredAt = (
     return numberOfPalindromes;
 };
 
-const countSubstrings = (s) => {
-    if (s.length === 0) return 0;
+const countSubstrings = (string) => {
+    if (string.length === 0) return 0;
 
     let numberOfPalindromes = 0;
 
-    for (let i = 0; i < s.length; i++) {
-        const numberOfOddPalindromes = numberOfPalindromesCenteredAt(s, i, i);
-        const numberOfEvenPalindromes = numberOfPalindromesCenteredAt(s, i, i + 1);
+    for (let i = 0; i < string.length; i++) {
+        const numberOfOddPalindromes = numberOfPalindromesCenteredAt(string, i, i);
+        const numberOfEvenPalindromes = numberOfPalindromesCenteredAt(string, i, i + 1);
 
         numberOfPalindromes += numberOfOddPalindromes + numberOfEvenPalindromes;
     }
