@@ -34,10 +34,14 @@ const reverseList = (head) => {
 
 const mergeLists = (listOneNode, listTwoNode) => {
     while (listTwoNode.next) {
+        // We want to move the listNodeOne forward by one (i.e. listNodeOne = listNodeOne.next). However,
+        // we also want to overwrite listNodeOne.next to be listNodeTwo. So, we store a reference to
+        // listNodeOne.next BEFORE we overwrite it.
         let temporary = listOneNode.next;
         listOneNode.next = listTwoNode;
         listOneNode = temporary;
 
+        // We do the same thing here but with listNodeTwo
         temporary = listTwoNode.next;
         listTwoNode.next = listOneNode;
         listTwoNode = temporary;
@@ -45,12 +49,13 @@ const mergeLists = (listOneNode, listTwoNode) => {
 };
 
 const reorderList = (head) => {
+    // We want to split the list into two halves, so we find the middle node
     const middleNode = getMiddleNode(head);
 
+    // We reverse the second half of the list (i.e. n, n - 1, n - 2 ...)
     let reversedHalfNode = reverseList(middleNode);
     let firstHalfNode = head;
 
-    const reorderedList = mergeLists(firstHalfNode, reversedHalfNode);
-
-    return reorderedList;
+    // We then merge the first half of the list (i.e. 1, 2, 3, ...) and the second half of the list which was reversed (i.e. n, n - 1, n - 2 ...)
+    mergeLists(firstHalfNode, reversedHalfNode);
 };
