@@ -4,7 +4,7 @@ const isValidBST = (root) => {
     let previousValue = null;
     
     // We use iterative inorder traversal of the BST
-    while (stack.length || root) {
+    while (stack.length > 0 || root) {
         
         while (root) {
             stack.push(root);
