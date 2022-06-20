@@ -1,25 +1,27 @@
 const isValidBST = (root) => {
     const stack = [];
+
+    let node = root;
     
     let previousValue = null;
     
     // We use iterative inorder traversal of the BST
-    while (stack.length > 0 || root) {
+    while (stack.length > 0 || node) {
         
-        while (root) {
-            stack.push(root);
-            root = root.left;
+        while (node) {
+            stack.push(node);
+            node = node.left;
         }
-        root = stack.pop();
+        node = stack.pop();
         
         // We check if the next element in inorder traversal is smaller than the previous one
         if (previousValue != null) {
-            const inOrder = root.val > previousValue;
+            const inOrder = node.val > previousValue;
             if (!inOrder) return false;
         }
-        previousValue = root.val;
+        previousValue = node.val;
         
-        root = root.right
+        node = node.right
     }
     
     return true;
