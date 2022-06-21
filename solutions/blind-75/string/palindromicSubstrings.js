@@ -26,8 +26,6 @@ const numberOfPalindromesCenteredAt = (
 };
 
 const countSubstrings = (string) => {
-    if (string.length === 0) return 0;
-
     let numberOfPalindromes = 0;
 
     for (let i = 0; i < string.length; i++) {

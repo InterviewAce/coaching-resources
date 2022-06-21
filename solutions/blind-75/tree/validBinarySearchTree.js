@@ -1,6 +1,5 @@
 const isValidBST = (root) => {
     const stack = [];
-
     let node = root;
     
     let previousValue = null;
