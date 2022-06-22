@@ -13,17 +13,8 @@ old problems:
 */
 
 /*
-longest alternating subsequence (+, -, +, -, ...)
-
-input = [10, 13, -8, 4, 8, -9, 224]
-length of longest = 5
-one example: [13, -8 ,4, -9, 224]
-
-don't use this
-*/
-
-/*
 longest doubling sequence (n, 2n, 4n, 8n, ..., (2^i)*n)
+there are no duplicate nums
 
 input = [93,4,3,17,186,34,290,813,372,8,6]
 length of longest = 3
@@ -62,7 +53,7 @@ const findLongestDoublingSequence = (nums) => {
 
   nums.forEach((num) => {
     if (!isEven(num)) {
-      longestDoublingSequenceEndingAt[num] = 1;
+      longestDoublingSequenceEndingAt[num] = LENGTH_OF_SEQUENCE_WITH_ONE_NUMBER;
       return;
     }
 
@@ -79,8 +70,8 @@ const findLongestDoublingSequence = (nums) => {
   return getMaxObjectValue(longestDoublingSequenceEndingAt);
 };
 
-// const input = [93, 4, 3, 17, 186, 34, 290, 813, 372, 8, 6];
-// console.log(findLongestDoublingSequence(input));
+const input = [93, 4, 3, 17, 186, 34, 290, 813, 372, 8, 6];
+console.log(findLongestDoublingSequence(input));
 
 /*
 at top of building with height h
@@ -89,7 +80,7 @@ need to reach floor at height 0
 at each height, there are fixed set of options for how far you can jump down
 (e.g. if we have [1,3], then you CANNOT jump down 2 floors)
 
-return min jumps to reach ground floor
+return min jumps to reach ground floor (if not possible, return -1)
 
 
 [[],   [1], [5], [1,2] [1,3], [1,2]]
@@ -102,55 +93,88 @@ to be done, index must be <= 0
 example output: 3 (5 => 3 => 2 => 0)
 */
 
-// const GROUND_FLOOR = 0;
-// const CANNOT_REACH_GROUND_FLOOR = -1;
+const GROUND_FLOOR = 0;
+const CANNOT_REACH_GROUND_FLOOR = -1;
 
-// const createArrayOfSize = (size, fillValue) => {
-//   return new Array(size).fill(fillValue);
-// };
+const createArrayOfSize = (size, fillValue) => {
+  return new Array(size).fill(fillValue);
+};
 
-// const checkIfCanReachCurFromAbove = (jumpOptions, curFloor, aboveFloor) => {
-//   const aboveJumpOptions = jumpOptions[aboveFloor];
+const checkIfCanReachCurFromAbove = (jumpOptions, curFloor, aboveFloor) => {
+  const aboveJumpOptions = jumpOptions[aboveFloor];
 
-//   for (const jumpSize of aboveJumpOptions) {
-//     if (aboveFloor - jumpSize === curFloor) return true;
-//   }
+  for (const jumpSize of aboveJumpOptions) {
+    if (aboveFloor - jumpSize === curFloor) return true;
+  }
 
-//   return false;
-// };
+  return false;
+};
 
-// const getMinJumpsToGroundFloor = (jumpOptions) => {
-//   const numFloors = jumpOptions.length;
-//   const minJumpsToReach = createArrayOfSize(numFloors, Infinity);
+const getMinJumpsToGroundFloor = (jumpOptions) => {
+  const numFloors = jumpOptions.length;
+  const minJumpsToReach = createArrayOfSize(numFloors, Infinity);
 
-//   const lastFloor = numFloors - 1;
-//   minJumpsToReach[lastFloor] = 0;
+  const lastFloor = numFloors - 1;
+  minJumpsToReach[lastFloor] = 0;
 
-//   for (let curFloor = lastFloor - 1; curFloor >= 0; curFloor--) {
-//     for (let aboveFloor = curFloor + 1; aboveFloor < numFloors; aboveFloor++) {
-//       const canReachCurFromAbove = checkIfCanReachCurFromAbove(
-//         jumpOptions,
-//         curFloor,
-//         aboveFloor,
-//       );
+  for (let curFloor = lastFloor - 1; curFloor >= GROUND_FLOOR; curFloor--) {
+    for (let aboveFloor = curFloor + 1; aboveFloor < numFloors; aboveFloor++) {
+      const canReachCurFromAbove = checkIfCanReachCurFromAbove(
+        jumpOptions,
+        curFloor,
+        aboveFloor,
+      );
 
-//       if (canReachCurFromAbove) {
-//         minJumpsToReach[curFloor] = Math.min(
-//           minJumpsToReach[curFloor],
-//           1 + minJumpsToReach[aboveFloor],
-//         );
-//       }
-//     }
-//   }
+      if (canReachCurFromAbove) {
+        minJumpsToReach[curFloor] = Math.min(
+          minJumpsToReach[curFloor],
+          1 + minJumpsToReach[aboveFloor],
+        );
+      }
+    }
+  }
 
-//   const canReachGroundFloor = minJumpsToReach[GROUND_FLOOR] !== Infinity;
-//   if (!canReachGroundFloor) return CANNOT_REACH_GROUND_FLOOR;
+  const canReachGroundFloor = minJumpsToReach[GROUND_FLOOR] !== Infinity;
+  if (!canReachGroundFloor) return CANNOT_REACH_GROUND_FLOOR;
 
-//   return minJumpsToReach[GROUND_FLOOR];
-// };
+  return minJumpsToReach[GROUND_FLOOR];
+};
 
-// const input = [[], [1], [5], [1, 2], [1, 3], [1, 2]];
-// console.log(getMinJumpsToGroundFloor(input));
+const input = [[], [1], [5], [1, 2], [1, 3], [1, 2]];
+console.log(getMinJumpsToGroundFloor(input));
+
+/*
+Alternative solution:
+
+const CANNOT_REACH_GROUND_FLOOR = -1;
+const GROUND_FLOOR = 0;
+const createArrayOfSize = (size, fillValue) => {
+  return new Array(size).fill(fillValue);
+}
+
+const getMinJumpsToGroundFloor = (floors) => {
+  const height = floors.length -1;
+  const minJumpsFrom = createArrayOfSize(height + 1, Infinity);
+  minJumpsFrom[GROUND_FLOOR] = 0;
+
+  for (let curFloor = 1; curFloor <= height; curFloor++) {
+    const curFloorJumpOptions = floors[curFloor];
+    
+    for (const jumpOption of curFloorJumpOptions) {
+      let lowerFloor = curFloor - jumpOption;
+      if (lowerFloor < GROUND_FLOOR) lowerFloor = GROUND_FLOOR;
+      
+      minJumpsFrom[curFloor] = Math.min(minJumpsFrom[curFloor], minJumpsFrom[lowerFloor] + 1);
+    }
+  }
+
+  if (minJumpsFrom[height] === Infinity) return CANNOT_REACH_GROUND_FLOOR;
+  return minJumpsFrom[height];
+}
+
+const input = [[], [1], [5], [1, 2], [1, 3], [1, 2]];
+console.log(getMinJumpsToGroundFloor(input));
+*/
 
 /*
 multiplicative jump game
@@ -168,43 +192,43 @@ input = [3,2,3,1,7,2,4,1,8]
 output = 2 (1 => 3 => 9)
 */
 
-// const START_LOCATION = 1;
-// const CANNOT_REACH_END = -1;
+const START_LOCATION = 1;
+const CANNOT_REACH_END = -1;
 
-// const getZeroIndexedValue = (index) => index - 1;
+const getZeroIndexedValue = (index) => index - 1;
 
-// const createArrayOfSize = (size, fillValue) => {
-//   return new Array(size).fill(fillValue);
-// };
+const createArrayOfSize = (size, fillValue) => {
+  return new Array(size).fill(fillValue);
+};
 
-// const getMinJumpsToEnd = (nums) => {
-//   const minJumpsToReach = createArrayOfSize(nums.length, Infinity);
-//   minJumpsToReach[getZeroIndexedValue(START_LOCATION)] = 0;
+const getMinJumpsToEnd = (nums) => {
+  const minJumpsToReach = createArrayOfSize(nums.length, Infinity);
+  minJumpsToReach[getZeroIndexedValue(START_LOCATION)] = 0;
 
-//   for (let curIdx = START_LOCATION + 1; curIdx <= nums.length; curIdx++) {
-//     for (let prevIdx = 1; prevIdx < curIdx; prevIdx++) {
-//       const reachableIdx = prevIdx * nums[getZeroIndexedValue(prevIdx)];
+  for (let curIdx = START_LOCATION + 1; curIdx <= nums.length; curIdx++) {
+    for (let prevIdx = START_LOCATION; prevIdx < curIdx; prevIdx++) {
+      const reachableIdx = prevIdx * nums[getZeroIndexedValue(prevIdx)];
 
-//       if (reachableIdx === curIdx) {
-//         const newJumpsToReachCur =
-//           minJumpsToReach[getZeroIndexedValue(prevIdx)] + 1;
-//         const prevMinJumps = minJumpsToReach[getZeroIndexedValue(curIdx)];
+      if (reachableIdx === curIdx) {
+        const newJumpsToReachCur =
+          minJumpsToReach[getZeroIndexedValue(prevIdx)] + 1;
+        const prevMinJumps = minJumpsToReach[getZeroIndexedValue(curIdx)];
 
-//         minJumpsToReach[getZeroIndexedValue(curIdx)] = Math.min(
-//           prevMinJumps,
-//           newJumpsToReachCur,
-//         );
-//       }
-//     }
-//   }
+        minJumpsToReach[getZeroIndexedValue(curIdx)] = Math.min(
+          prevMinJumps,
+          newJumpsToReachCur,
+        );
+      }
+    }
+  }
 
-//   const lastIdx = nums.length - 1;
-//   const canReachEnd = minJumpsToReach[lastIdx] !== Infinity;
+  const lastIdx = nums.length - 1;
+  const canReachEnd = minJumpsToReach[lastIdx] !== Infinity;
 
-//   if (!canReachEnd) return CANNOT_REACH_END;
+  if (!canReachEnd) return CANNOT_REACH_END;
 
-//   return minJumpsToReach[lastIdx];
-// };
+  return minJumpsToReach[lastIdx];
+};
 
-// const input = [3, 2, 3, 1, 7, 2, 4, 1, 8];
-// console.log(getMinJumpsToEnd(input));
+const input = [3, 2, 3, 1, 7, 2, 4, 1, 8];
+console.log(getMinJumpsToEnd(input));
