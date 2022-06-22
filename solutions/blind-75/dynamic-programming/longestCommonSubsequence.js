@@ -1,24 +1,30 @@
-var longestCommonSubsequence = function(text1, text2) {
+var longestCommonSubsequence = function(textOne, textTwo) {
     const cache = {};
-    return combinationSumHelper(text1, text2, text1.length - 1, text2.length - 1, cache);
+    return longestCommonSubsequenceHelper(textOne, textTwo, 0, 0, cache);
 };
 
-function combinationSumHelper(textOne, textTwo, indexOne, indexTwo, cache) {
-    if (indexOne < 0 || indexTwo < 0) return 0;
+function longestCommonSubsequenceHelper(textOne, textTwo, indexOne, indexTwo, cache) {
+    const lastIndexOne = textOne.length - 1;
+    const lastIndexTwo = textTwo.length - 1;
+    if (indexOne > lastIndexOne) return 0;
+    if (indexTwo > lastIndexTwo) return 0;
     
     const key = indexOne + ' ' + indexTwo;
-    
-    if (key in cache) return cache[key];
+    if (cache.hasOwnProperty(key)) return cache[key];
     
     let result;
 
-    if (textOne.charAt(indexOne) === textTwo.charAt(indexTwo)) {
-        result = combinationSumHelper(textOne, textTwo, indexOne - 1, indexTwo - 1, cache) + 1;
+    const charOne = textOne.charAt(indexOne);
+    const charTwo = textTwo.charAt(indexTwo);
+    const charsSame = charOne == charTwo;
+
+    if (charsSame) {
+        const skipBothChars = longestCommonSubsequenceHelper(textOne, textTwo, indexOne + 1, indexTwo + 1, cache);
+        result = skipBothChars + 1;
     } else {
-        result = Math.max(
-            combinationSumHelper(textOne, textTwo, indexOne, indexTwo - 1, cache), 
-            combinationSumHelper(textOne, textTwo, indexOne - 1, indexTwo, cache)
-        );
+        const skipCharOne = longestCommonSubsequenceHelper(textOne, textTwo, indexOne + 1, indexTwo, cache);
+        const skipCharTwo = longestCommonSubsequenceHelper(textOne, textTwo, indexOne, indexTwo + 1, cache);
+        result = Math.max(skipCharOne, skipCharTwo);
     }
     
     cache[key] = result;
