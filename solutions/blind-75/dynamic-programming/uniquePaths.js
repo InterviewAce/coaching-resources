@@ -1,3 +1,46 @@
+/*
+Recursion with memoization
+*/
+const getMinPathsToPosition = (row, col, uniquePathsToPosition) => {
+  const key = `${row}-${col}`;
+
+  const keyInCache = uniquePathsToPosition.hasOwnProperty(key);
+
+  if (keyInCache) return uniquePathsToPosition[key];
+
+  const isAtStart = row === 0 && col === 0;
+  const isOutOfBounds = row < 0 || col < 0;
+
+  if (isAtStart) return 1;
+  if (isOutOfBounds) return 0;
+
+  const numWaysToReachLeft = getMinPathsToPosition(
+    row,
+    col - 1,
+    uniquePathsToPosition,
+  );
+  const numWaysToReachUp = getMinPathsToPosition(
+    row - 1,
+    col,
+    uniquePathsToPosition,
+  );
+
+  uniquePathsToPosition[key] = numWaysToReachLeft + numWaysToReachUp;
+  return uniquePathsToPosition[key];
+};
+
+const uniquePaths = (numRows, numCols) => {
+  const lastRow = numRows - 1;
+  const lastCol = numCols - 1;
+
+  const uniquePathsToPosition = {};
+
+  return getMinPathsToPosition(lastRow, lastCol, uniquePathsToPosition);
+};
+
+/*
+Tabulation
+*/
 const INVALID_INPUT = -1;
 
 const createArrayOfSize = (numRows, numCols, fillValue) => {
