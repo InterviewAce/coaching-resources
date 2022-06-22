@@ -1,4 +1,4 @@
-var longestCommonSubsequence = function(textOne, textTwo) {
+const longestCommonSubsequence = (textOne, textTwo) => {
     const cache = {};
     const lastIndexOne = textOne.length - 1;
     const lastIndexTwo = textTwo.length - 1;
@@ -14,10 +14,8 @@ function longestCommonSubsequenceHelper(textOne, textTwo, indexOne, indexTwo, ca
     
     let result;
 
-    const charOne = textOne.charAt(indexOne);
-    const charTwo = textTwo.charAt(indexTwo);
-    const charsSame = charOne == charTwo;
-
+    const charsSame = textOne[indexOne] == textTwo[indexTwo];
+    
     if (charsSame) {
         const skipBothChars = longestCommonSubsequenceHelper(textOne, textTwo, indexOne - 1, indexTwo - 1, cache);
         result = skipBothChars + 1;
