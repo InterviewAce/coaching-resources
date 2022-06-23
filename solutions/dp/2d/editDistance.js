@@ -36,34 +36,39 @@ const minDistanceBetweenWords = (
     return minDistanceCache[key];
   }
 
-  const minDistanceIfDeleteFrom1 = minDistanceBetweenWords(
-    word1,
-    word2,
-    word1LastIdx - 1,
-    word2LastIdx,
-    minDistanceCache,
-  );
-  const minDistanceIfDeleteFrom2 = minDistanceBetweenWords(
-    word1,
-    word2,
-    word1LastIdx,
-    word2LastIdx - 1,
-    minDistanceCache,
-  );
-  const minDistanceIfDeleteFromBoth = minDistanceBetweenWords(
-    word1,
-    word2,
-    word1LastIdx - 1,
-    word2LastIdx - 1,
-    minDistanceCache,
-  );
+  const minDistanceWithDeletion =
+    1 +
+    minDistanceBetweenWords(
+      word1,
+      word2,
+      word1LastIdx - 1,
+      word2LastIdx,
+      minDistanceCache,
+    );
+  const minDistanceWithInsertion =
+    1 +
+    minDistanceBetweenWords(
+      word1,
+      word2,
+      word1LastIdx,
+      word2LastIdx - 1,
+      minDistanceCache,
+    );
+  const minDistanceWithReplacement =
+    1 +
+    minDistanceBetweenWords(
+      word1,
+      word2,
+      word1LastIdx - 1,
+      word2LastIdx - 1,
+      minDistanceCache,
+    );
 
-  minDistanceCache[key] =
-    Math.min(
-      minDistanceIfDeleteFrom1,
-      minDistanceIfDeleteFrom2,
-      minDistanceIfDeleteFromBoth,
-    ) + 1;
+  minDistanceCache[key] = Math.min(
+    minDistanceWithDeletion,
+    minDistanceWithInsertion,
+    minDistanceWithReplacement,
+  );
 
   return minDistanceCache[key];
 };
