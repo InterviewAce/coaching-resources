@@ -5,13 +5,13 @@ const longestCommonSubsequenceHelper = (
   text2,
   text1LastIdx,
   text2LastIdx,
-  lcsCache,
+  lcsEndingAtIndices,
 ) => {
-  const key = `${text1LastIdx}-${text2LastIdx}`;
+  const indices = `${text1LastIdx}-${text2LastIdx}`;
 
-  const keyInCache = lcsCache.hasOwnProperty(key);
+  const indicesInCache = lcsEndingAtIndices.hasOwnProperty(indices);
 
-  if (keyInCache) return lcsCache[key];
+  if (indicesInCache) return lcsEndingAtIndices[indices];
 
   if (
     text1LastIdx === EMPTY_STRING_LAST_INDEX ||
@@ -23,49 +23,52 @@ const longestCommonSubsequenceHelper = (
   const text2SubstringLastChar = text2[text2LastIdx];
 
   if (text1SubstringLastChar === text2SubstringLastChar) {
-    lcsCache[key] =
+    lcsEndingAtIndices[indices] =
       1 +
       longestCommonSubsequenceHelper(
         text1,
         text2,
         text1LastIdx - 1,
         text2LastIdx - 1,
-        lcsCache,
+        lcsEndingAtIndices,
       );
-    return lcsCache[key];
+    return lcsEndingAtIndices[indices];
   }
 
-  const deleteFromText1 = longestCommonSubsequenceHelper(
+  const lcsIfDeleteFromText1 = longestCommonSubsequenceHelper(
     text1,
     text2,
     text1LastIdx - 1,
     text2LastIdx,
-    lcsCache,
+    lcsEndingAtIndices,
   );
 
-  const deleteFromText2 = longestCommonSubsequenceHelper(
+  const lcsIfDeleteFromText2 = longestCommonSubsequenceHelper(
     text1,
     text2,
     text1LastIdx,
     text2LastIdx - 1,
-    lcsCache,
+    lcsEndingAtIndices,
   );
 
-  lcsCache[key] = Math.max(deleteFromText1, deleteFromText2);
-  return lcsCache[key];
+  lcsEndingAtIndices[indices] = Math.max(
+    lcsIfDeleteFromText1,
+    lcsIfDeleteFromText2,
+  );
+  return lcsEndingAtIndices[indices];
 };
 
 const longestCommonSubsequence = (text1, text2) => {
   const text1LastIdx = text1.length - 1;
   const text2LastIdx = text2.length - 1;
 
-  const lcsCache = {};
+  const lcsEndingAtIndices = {};
 
   return longestCommonSubsequenceHelper(
     text1,
     text2,
     text1LastIdx,
     text2LastIdx,
-    lcsCache,
+    lcsEndingAtIndices,
   );
 };
