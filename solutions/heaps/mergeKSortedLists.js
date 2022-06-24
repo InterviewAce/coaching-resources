@@ -21,7 +21,7 @@ const mergeKLists = (lists) => {
         mergedTail.next = headsOfLists.pop();
         mergedTail = mergedTail.next;
         
-        if (head) headsOfLists.push(head);
+        if (mergedTail.next) headsOfLists.push(mergedTail.next);
     }
     
     return sentinel.next;
