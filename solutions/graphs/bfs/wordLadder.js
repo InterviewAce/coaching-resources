@@ -1,3 +1,5 @@
+const NO_VALID_SEQUENCE = 0;
+
 const getASCII = (char) => char.charCodeAt();
 
 const getChar = (asciiVal) => String.fromCharCode(asciiVal);
@@ -39,9 +41,9 @@ const generateValidOneDiffWords = (word, validWords) => {
   return validOneDiffWords;
 };
 
-var ladderLength = function (beginWord, endWord, wordList) {
+const ladderLength = (beginWord, endWord, wordList) => {
   const validWords = new Set(wordList);
-  if (!validWords.has(endWord)) return 0;
+  if (!validWords.has(endWord)) return NO_VALID_SEQUENCE;
 
   const queue = new Queue();
   queue.enqueue({
@@ -63,15 +65,15 @@ var ladderLength = function (beginWord, endWord, wordList) {
     // Add neighbors
     const oneDiffWords = generateValidOneDiffWords(word, validWords);
 
-    oneDiffWords.forEach((newWord) => {
-      if (visited.has(newWord)) return;
+    for (const newWord of oneDiffWords) {
+      if (visited.has(newWord)) continue; // This graph CAN have cycles (all undirected graphs can have cycles), so we must tracked visited nodes to prevent infinite loops
 
       queue.enqueue({
         word: newWord,
         numTransformationsSoFar: numTransformationsSoFar + 1,
       });
-    });
+    }
   }
 
-  return 0;
+  return NO_VALID_SEQUENCE;
 };
