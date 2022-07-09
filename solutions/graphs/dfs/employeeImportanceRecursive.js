@@ -21,7 +21,7 @@ const getTotalImportance = (currentId, employeeMap) => {
 
   totalImportance += currentImportance;
 
-  // Add neighbors
+  // Recurse on neighbors
   const { subordinates } = currentEmployee;
 
   for (const subordinateId of subordinates) {
