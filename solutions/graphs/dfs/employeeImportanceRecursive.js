@@ -1,37 +1,37 @@
 const buildEmployeeMap = (employees) => {
-  const employeeMap = {};
+  const idToEmployeeMap = {};
 
   for (let i = 0; i < employees.length; i++) {
-    const employee = employees[i];
-    const id = employee.id;
-
-    employeeMap[id] = employee;
+    const curEmployee = employees[i];
+    idToEmployeeMap[curEmployee.id] = curEmployee;
   }
 
-  return employeeMap;
+  return idToEmployeeMap;
 };
 
 const getTotalImportance = (currentId, employeeMap) => {
-  // For this problem, our base case in automatically handled (our base case occurs when the current node has no subordinates).
+  // For this problem, our base case in automatically handled (our base case occurs when the
+  // current node has no subordinates).
 
   let totalImportance = 0;
 
   // Process node
   const currentEmployee = employeeMap[currentId];
   const currentImportance = currentEmployee.importance;
+
   totalImportance += currentImportance;
 
   // Add neighbors
   const { subordinates } = currentEmployee;
 
-  subordinates.forEach((subordinateId) => {
+  for (const subordinateId of subordinates) {
     const subordinateTotalImportance = getTotalImportance(
       subordinateId,
       employeeMap,
     );
 
     totalImportance += subordinateTotalImportance;
-  });
+  }
 
   return totalImportance;
 };
