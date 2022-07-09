@@ -1,7 +1,7 @@
 const NOT_FOUND = -1;
 
 const getMidIdx = (leftIdx, rightIdx) => {
-  /*
+    /*
   Why do we use this math to find the middle index?
   Couldn't we just use
     const midIdx = Math.floor((left + right) / 2);
@@ -25,51 +25,59 @@ const getMidIdx = (leftIdx, rightIdx) => {
   puts as at the middle index. But, there is no risk of computing
   numbers that cause integer overflow.
   */
-  const midIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
+    const midIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
 
-  return midIdx;
+    return midIdx;
 };
 
 const getFirstOccurrenceIdx = (nums, target) => {
-  const lastIdx = nums.length - 1;
+    const lastIdx = nums.length - 1;
 
-  let leftIdx = 0;
-  let rightIdx = lastIdx;
+    let leftIdx = 0;
+    let rightIdx = lastIdx;
 
-  while (leftIdx <= rightIdx) {
-    const midIdx = getMidIdx(leftIdx, rightIdx);
-    const midVal = nums[midIdx];
+    let firstOccurrenceIdx = NOT_FOUND;
 
-    if (midVal >= target) rightIdx = midIdx - 1;
-    else leftIdx = midIdx + 1;
-  }
+    while (leftIdx <= rightIdx) {
+        const midIdx = getMidIdx(leftIdx, rightIdx);
+        const midVal = nums[midIdx];
 
-  return leftIdx;
+        if (midVal === target) firstOccurrenceIdx = midIdx;
+
+        if (midVal >= target) rightIdx = midIdx - 1;
+        else leftIdx = midIdx + 1;
+    }
+
+    return firstOccurrenceIdx;
 };
 
 const getLastOccurrenceIdx = (nums, target) => {
-  const lastIdx = nums.length - 1;
+    const lastIdx = nums.length - 1;
 
-  let leftIdx = 0;
-  let rightIdx = lastIdx;
+    let leftIdx = 0;
+    let rightIdx = lastIdx;
 
-  while (leftIdx <= rightIdx) {
-    const midIdx = getMidIdx(leftIdx, rightIdx);
-    const midVal = nums[midIdx];
+    let lastOccurrenceIdx = NOT_FOUND;
 
-    if (midVal <= target) leftIdx = midIdx + 1;
-    else rightIdx = midIdx - 1;
-  }
+    while (leftIdx <= rightIdx) {
+        const midIdx = getMidIdx(leftIdx, rightIdx);
+        const midVal = nums[midIdx];
 
-  return rightIdx;
+        if (midVal === target) lastOccurrenceIdx = midIdx;
+
+        if (midVal <= target) leftIdx = midIdx + 1;
+        else rightIdx = midIdx - 1;
+    }
+
+    return lastOccurrenceIdx;
 };
 
 const searchRange = (nums, target) => {
-  const firstOccurrenceIdx = getFirstOccurrenceIdx(nums, target);
-  const lastOccurrenceIdx = getLastOccurrenceIdx(nums, target);
+    const firstOccurrenceIdx = getFirstOccurrenceIdx(nums, target);
+    const lastOccurrenceIdx = getLastOccurrenceIdx(nums, target);
 
-  if (firstOccurrenceIdx <= lastOccurrenceIdx)
-    return [firstOccurrenceIdx, lastOccurrenceIdx];
+    if (firstOccurrenceIdx <= lastOccurrenceIdx)
+        return [firstOccurrenceIdx, lastOccurrenceIdx];
 
-  return [NOT_FOUND, NOT_FOUND];
+    return [NOT_FOUND, NOT_FOUND];
 };
