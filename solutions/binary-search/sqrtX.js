@@ -40,7 +40,7 @@ const mySqrt = (x) => {
 
     while (leftNum <= rightNum) {
         const midNum = getMidNum(leftNum, rightNum);
-        const midNumSquared = midNum ** 2;
+        const midNumSquared = midNum * midNum;
 
         if (midNumSquared > x) {
             rightNum = midNum - 1;
