@@ -31,7 +31,7 @@ const getTotalImportance = (rootId, idToEmployeeMap) => {
             // What would a cycle mean in this context?
             // Imagine that Bob is your manager, and Abby is Bob's manager, but you are also
             // Abby's manager. Clearly, that does not make sense (because you would be in
-            // charge of your own grandmanager). So, we see that in this employee hierarchy
+            // charge of your own grandmanager). So, we see that in the employee hierarchy
             // graph specified for this problem, cycles are not possible. Thus, we do NOT
             // need any visited checks.
             queue.enqueue(subordinate);
