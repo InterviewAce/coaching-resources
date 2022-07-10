@@ -1,5 +1,5 @@
 const getMidIdx = (leftIdx, rightIdx) => {
-  /*
+    /*
   Why do we use this math to find the middle index?
   Couldn't we just use
     const midIdx = Math.floor((left + right) / 2);
@@ -23,42 +23,42 @@ const getMidIdx = (leftIdx, rightIdx) => {
   puts as at the middle index. But, there is no risk of computing
   numbers that cause integer overflow.
   */
-  const midIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
+    const midIdx = leftIdx + Math.floor((rightIdx - leftIdx) / 2);
 
-  return midIdx;
+    return midIdx;
 };
 
 const isOdd = (n) => {
-  return n % 2 === 1;
+    return n % 2 === 1;
 };
 
 const singleNonDuplicate = (nums) => {
-  const lastIdx = nums.length - 1;
+    const lastIdx = nums.length - 1;
 
-  let leftIdx = 0;
-  let rightIdx = nums.length - 1;
+    let leftIdx = 0;
+    let rightIdx = nums.length - 1;
 
-  while (leftIdx < rightIdx) {
-    let midIdx = getMidIdx(leftIdx, rightIdx);
+    while (leftIdx < rightIdx) {
+        let midIdx = getMidIdx(leftIdx, rightIdx);
 
-    // Make sure `midIdx` points to the first element in the current pair.
-    if (isOdd(midIdx)) {
-      midIdx -= 1;
+        // Make sure `midIdx` points to the first element in the current pair.
+        if (isOdd(midIdx)) {
+            midIdx -= 1;
+        }
+
+        // If we have a pair at midIdx and (midIdx + 1), then the non-duplicate is in the right half of the remaining section. So, we set `leftIdx = midIdx + 2` to skip past the current pair.
+        const midVal = nums[midIdx];
+        const nextVal = nums[midIdx + 1];
+        if (midVal === nextVal) {
+            leftIdx = midIdx + 2;
+        }
+
+        // Otherwise, the non-duplicate must be in the left half of the remaining section (including `midIdx`).
+        else {
+            rightIdx = midIdx;
+        }
     }
 
-    // If we have a pair at midIdx and (midIdx + 1), then the non-duplicate is in the right half of the remaining section. So, we set `leftIdx = midIdx + 2` to skip past the current pair.
-    const midVal = nums[midIdx];
-    const nextVal = nums[midIdx + 1];
-    if (midVal === nextVal) {
-      leftIdx = midIdx + 2;
-    }
-
-    // Otherwise, the non-duplicate must be in the left half of the remaining section (including `midIdx`).
-    else {
-      rightIdx = midIdx;
-    }
-  }
-
-  const nonDuplicateNum = nums[leftIdx];
-  return nonDuplicateNum;
+    const nonDuplicateNum = nums[leftIdx];
+    return nonDuplicateNum;
 };
