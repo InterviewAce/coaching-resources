@@ -2,95 +2,100 @@ const START_COMBINATION = '0000';
 const IMPOSSIBLE_TO_OPEN = -1;
 
 const goUp = (char) => {
-  if (char === '9') {
-    const newCharInt = 0;
+    if (char === '9') {
+        const newCharInt = 0;
+
+        return newCharInt.toString();
+    }
+
+    const charInt = parseInt(char);
+    const newCharInt = charInt + 1;
 
     return newCharInt.toString();
-  }
-
-  const charInt = parseInt(char);
-  const newCharInt = charInt + 1;
-
-  return newCharInt.toString();
 };
 
 const goDown = (char) => {
-  if (char === '0') {
-    const newCharInt = 9;
+    if (char === '0') {
+        const newCharInt = 9;
+
+        return newCharInt.toString();
+    }
+
+    const charInt = parseInt(char);
+    const newCharInt = charInt - 1;
 
     return newCharInt.toString();
-  }
-
-  const charInt = parseInt(char);
-  const newCharInt = charInt - 1;
-
-  return newCharInt.toString();
 };
 
 const replaceCharAtI = (combination, i, char) => {
-  const beforeI = combination.substring(0, i);
-  const afterI = combination.substring(i + 1);
+    const beforeI = combination.substring(0, i);
+    const afterI = combination.substring(i + 1);
 
-  return beforeI + char + afterI;
+    return beforeI + char + afterI;
 };
 
 const getNeighbors = (combination, queue) => {
-  const allNeighbors = [];
+    const allNeighbors = [];
 
-  for (let i = 0; i < combination.length; i++) {
-    const char = combination[i];
+    for (let i = 0; i < combination.length; i++) {
+        const char = combination[i];
 
-    const upChar = goUp(char);
-    const downChar = goDown(char);
+        const upChar = goUp(char);
+        const downChar = goDown(char);
 
-    const upString = replaceCharAtI(combination, i, upChar);
-    const downString = replaceCharAtI(combination, i, downChar);
+        const upString = replaceCharAtI(combination, i, upChar);
+        const downString = replaceCharAtI(combination, i, downChar);
 
-    allNeighbors.push(upString);
-    allNeighbors.push(downString);
-  }
+        allNeighbors.push(upString);
+        allNeighbors.push(downString);
+    }
 
-  return allNeighbors;
+    return allNeighbors;
 };
 
 const getMinTurns = (target, deadends) => {
-  const queue = new Queue();
-  queue.enqueue([START_COMBINATION, 0]); // [combination, numTurnsSoFar]
+    const queue = new Queue();
+    queue.enqueue([START_COMBINATION, 0]); // [combination, numTurnsSoFar]
 
-  const visited = new Set();
+    const visited = new Set();
 
-  while (queue.size() > 0) {
-    // Remove node
-    const [combination, numTurnsSoFar] = queue.dequeue();
+    while (queue.size() > 0) {
+        // Remove node
+        const [combination, numTurnsSoFar] = queue.dequeue();
 
-    // Process node
-    if (deadends.has(combination)) continue;
-    if (visited.has(combination)) continue; // This graph CAN have cycles (all undirected graphs can have cycles), so we must tracked visited nodes to prevent infinite loops
+        // Process node
+        if (deadends.has(combination)) continue;
 
-    if (combination == target) return numTurnsSoFar;
+        // This is an undirected graph. From "1111" we can go to "1112" and from
+        // "1112" we can go to "1111".
+        // Thus, this graph CAN have cycles (all undirected graphs can have cycles),
+        // so we must tracked visited nodes to prevent infinite loops.
+        if (visited.has(combination)) continue;
 
-    visited.add(combination);
+        if (combination == target) return numTurnsSoFar;
 
-    // Add neighbors
-    const neighbors = getNeighbors(combination, queue);
+        visited.add(combination);
 
-    for (const neighborCombination of neighbors) {
-      queue.enqueue([neighborCombination, numTurnsSoFar + 1]);
+        // Add neighbors
+        const neighbors = getNeighbors(combination, queue);
+
+        for (const neighborCombination of neighbors) {
+            queue.enqueue([neighborCombination, numTurnsSoFar + 1]);
+        }
     }
-  }
 
-  // If we break out of our loop (meaning we never hit our `return numTurnsSoFar`),
-  // we know that it is NOT possible to reach `target`
-  return IMPOSSIBLE_TO_OPEN;
+    // If we break out of our loop (meaning we never hit our `return numTurnsSoFar`),
+    // we know that it is NOT possible to reach `target`
+    return IMPOSSIBLE_TO_OPEN;
 };
 
 const openLock = function (deadends, target) {
-  const deadendsSet = new Set(deadends);
+    const deadendsSet = new Set(deadends);
 
-  const includesStart = deadendsSet.has(START_COMBINATION);
-  const includesTarget = deadendsSet.has(target);
+    const includesStart = deadendsSet.has(START_COMBINATION);
+    const includesTarget = deadendsSet.has(target);
 
-  if (includesStart || includesTarget) return IMPOSSIBLE_TO_OPEN;
+    if (includesStart || includesTarget) return IMPOSSIBLE_TO_OPEN;
 
-  return getMinTurns(target, deadendsSet);
+    return getMinTurns(target, deadendsSet);
 };
