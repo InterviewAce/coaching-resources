@@ -12,9 +12,10 @@ const cloneGraph = function (node) {
         const curNode = queue.dequeue();
 
         // Process node
-        const curNodeNeighbors = curNode.neighbors;
+        // Note: there is no process node step for this problem.
 
         // Add neighbors
+        const curNodeNeighbors = curNode.neighbors;
         for (const neighbor of curNodeNeighbors) {
             const hasNeighborClone = originalToCloneMap.hasOwnProperty(
                 neighbor.val,
