@@ -17,7 +17,7 @@ const cloneGraph = function (node) {
         const curNodeNeighbors = curNode.neighbors;
 
         // Add neighbors
-        curNodeNeighbors.forEach((neighbor) => {
+        for (const neighbor of curNodeNeighbors) {
             const hasNeighborClone = originalToCloneMap.hasOwnProperty(
                 neighbor.val,
             );
@@ -45,7 +45,7 @@ const cloneGraph = function (node) {
             const neighborClone = originalToCloneMap[neighbor.val];
 
             curNodeClone.neighbors.push(neighborClone);
-        });
+        }
     }
 
     return originalToCloneMap[node.val];
