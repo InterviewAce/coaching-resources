@@ -1,7 +1,5 @@
 const cloneGraph = function (node) {
-    if (!node) {
-        return node;
-    }
+    if (!node) return node;
 
     const queue = new Queue();
     queue.enqueue(node);
