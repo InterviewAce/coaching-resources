@@ -55,13 +55,24 @@ const getNeighbors = (combination, queue) => {
 
 const getMinTurns = (target, deadends) => {
     const queue = new Queue();
-    queue.enqueue([START_COMBINATION, 0]); // [combination, numTurnsSoFar]
+
+    // Note: we are making the decision to store metadata in the queue. Basically,
+    // with each node, we also store some information about that node. In our case,
+    // we're storing the number of turns we used to reach the current combination
+    // from the start combination. Storing metadata in the queue like this is a
+    // common pattern, and is especially useful for shortest path problems. Often
+    // times follow-up questions to shortest path problems will simply involve
+    // adding 1-2 pieces of metadata, and then adding 1-2 pieces of logic.
+    queue.enqueue({
+        combination: START_COMBINATION,
+        numTurnsSoFar: 0,
+    });
 
     const visited = new Set();
 
     while (queue.size() > 0) {
         // Remove node
-        const [combination, numTurnsSoFar] = queue.dequeue();
+        const { combination, numTurnsSoFar } = queue.dequeue();
 
         // Process node
 
@@ -84,7 +95,10 @@ const getMinTurns = (target, deadends) => {
         const neighbors = getNeighbors(combination, queue);
 
         for (const neighborCombination of neighbors) {
-            queue.enqueue([neighborCombination, numTurnsSoFar + 1]);
+            queue.enqueue({
+                combination: neighborCombination,
+                numTurnsSoFar: numTurnsSoFar + 1,
+            });
         }
     }
 

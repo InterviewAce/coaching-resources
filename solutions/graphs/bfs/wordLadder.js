@@ -46,6 +46,14 @@ const ladderLength = (beginWord, endWord, wordList) => {
     if (!validWords.has(endWord)) return NO_VALID_SEQUENCE;
 
     const queue = new Queue();
+
+    // Note: we are making the decision to store metadata in the queue. Basically,
+    // with each node, we also store some information about that node. In our case,
+    // we're storing the number of transformations we used to reach the current word
+    // from the start word. Storing metadata in the queue like this is a
+    // common pattern, and is especially useful for shortest path problems. Often
+    // times follow-up questions to shortest path problems will simply involve
+    // adding 1-2 pieces of metadata, and then adding 1-2 pieces of logic.
     queue.enqueue({
         word: beginWord,
         numTransformationsSoFar: 1,
