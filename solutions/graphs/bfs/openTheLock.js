@@ -64,6 +64,10 @@ const getMinTurns = (target, deadends) => {
         const [combination, numTurnsSoFar] = queue.dequeue();
 
         // Process node
+
+        // Note: we have tried putting the "deadends.has" and "visited.has" checks
+        // inside of the "Add neighbors" step, but we have not been able to get
+        // this to work on LeetCode. As of now, we're not sure why.
         if (deadends.has(combination)) continue;
 
         // This is an undirected graph. From "1111" we can go to "1112" and from

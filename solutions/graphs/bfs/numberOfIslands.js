@@ -29,6 +29,10 @@ const markWholeIslandAsVisited = (grid, startRow, startCol, visited) => {
         const [row, col] = queue.dequeue();
 
         // Process node
+
+        // Note: we have tried putting the "isInBounds.has" and "visited.has" checks
+        // inside of the "Add neighbors" step, but we have not been able to get
+        // this to work on LeetCode. As of now, we're not sure why.
         if (!isInBounds(grid, row, col)) continue;
 
         // This is an undirected graph. From [0,0] we can go to [0,1] and from
