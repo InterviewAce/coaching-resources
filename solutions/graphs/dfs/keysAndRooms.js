@@ -13,7 +13,7 @@ const canVisitAllRooms = (rooms) => {
         // Process node
         // This graph is directed, but it still CAN have cycles. For example, room 0
         // can have the key to room 4, and room 4 can have the key to room 0.
-        // So we must tracked visited nodes to prevent infinite loops.
+        // So, we must tracked visited nodes to prevent infinite loops.
         if (visitedRooms.has(roomNumber)) continue;
 
         visitedRooms.add(roomNumber);

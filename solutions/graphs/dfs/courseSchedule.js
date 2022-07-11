@@ -1,46 +1,49 @@
 const buildGraph = (prerequisites) => {
-  const graph = {};
+    const graph = {};
 
-  prerequisites.forEach(([course, prereq]) => {
-    const prereqInGraph = graph.hasOwnProperty(prereq);
+    prerequisites.forEach(([course, prereq]) => {
+        const prereqInGraph = graph.hasOwnProperty(prereq);
 
-    if (!prereqInGraph) graph[prereq] = [];
+        if (!prereqInGraph) graph[prereq] = [];
 
-    graph[prereq].push(course);
-  });
+        graph[prereq].push(course);
+    });
 
-  return graph;
+    return graph;
 };
 
 const createArrayOfSize = (size, fillValue) => {
-  return new Array(size).fill(fillValue);
+    return new Array(size).fill(fillValue);
 };
 
 const checkForCycle = (courseNum, graph, visited) => {
-  if (visited[courseNum] == -1) return true;
-  visited[courseNum] = -1;
+    if (visited[courseNum] == -1) return true;
+    visited[courseNum] = -1;
 
-  const neighbours = graph[courseNum] || [];
+    const neighbours = graph[courseNum] || [];
 
-  for (const neighbor of neighbours) {
-    if (visited[n] != 1) {
-      if (checkForCycle(neighbor, graph, visited)) return true;
+    for (const neighbor of neighbours) {
+        // This graph is directed, but it still CAN have cycles. For example, course 0
+        // can require course 4, and course 4 can require course 0.
+        // So, we must tracked visited nodes to prevent infinite loops.
+        if (visited[n] != 1) {
+            if (checkForCycle(neighbor, graph, visited)) return true;
+        }
     }
-  }
 
-  visited[courseNum] = 1;
-  return false;
+    visited[courseNum] = 1;
+    return false;
 };
 
 const canFinish = (numCourses, prerequisites) => {
-  const graph = buildGraph(prerequisites);
-  const visited = createArrayOfSize(numCourses, 0); // 0 means unvisited
+    const graph = buildGraph(prerequisites);
+    const visited = createArrayOfSize(numCourses, 0); // 0 means unvisited
 
-  for (let courseNum = 0; courseNum < numCourses; courseNum++) {
-    const hasCycle = checkForCycle(courseNum, graph, visited);
+    for (let courseNum = 0; courseNum < numCourses; courseNum++) {
+        const hasCycle = checkForCycle(courseNum, graph, visited);
 
-    if (hasCycle) return false;
-  }
+        if (hasCycle) return false;
+    }
 
-  return true;
+    return true;
 };
