@@ -1,22 +1,21 @@
-const cloneGraph = function (node) {
-    if (!node) return node;
+const cloneGraph = function (startNode) {
+    if (!startNode) return startNode;
 
     const queue = new Queue();
-    queue.enqueue(node);
+    queue.enqueue(startNode);
 
     const originalToCloneMap = {};
-    originalToCloneMap[node.val] = new Node(node.val, []);
+    originalToCloneMap[startNode.val] = new Node(startNode.val, []);
 
     while (queue.size() > 0) {
         // Remove from queue
-        const curNode = queue.dequeue();
+        const node = queue.dequeue();
 
         // Process node
         // Note: there is no process node step for this problem.
 
         // Add neighbors
-        const curNodeNeighbors = curNode.neighbors;
-        for (const neighbor of curNodeNeighbors) {
+        for (const neighbor of node.neighbors) {
             const hasNeighborClone = originalToCloneMap.hasOwnProperty(
                 neighbor.val,
             );
@@ -40,12 +39,12 @@ const cloneGraph = function (node) {
                 originalToCloneMap[neighbor.val] = new Node(neighbor.val, []);
             }
 
-            const curNodeClone = originalToCloneMap[curNode.val];
+            const curNodeClone = originalToCloneMap[node.val];
             const neighborClone = originalToCloneMap[neighbor.val];
 
             curNodeClone.neighbors.push(neighborClone);
         }
     }
 
-    return originalToCloneMap[node.val];
+    return originalToCloneMap[startNode.val];
 };
