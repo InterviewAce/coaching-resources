@@ -56,17 +56,17 @@ const ladderLength = (beginWord, endWord, wordList) => {
     // adding 1-2 pieces of metadata, and then adding 1-2 pieces of logic.
     queue.enqueue({
         word: beginWord,
-        numTransformationsSoFar: 1,
+        sequenceLengthSoFar: 1,
     });
 
     const visited = new Set();
 
     while (queue.size() > 0) {
         // Remove node
-        const { word, numTransformationsSoFar } = queue.dequeue();
+        const { word, sequenceLengthSoFar } = queue.dequeue();
 
         // Process node
-        if (word === endWord) return numTransformationsSoFar;
+        if (word === endWord) return sequenceLengthSoFar;
 
         visited.add(word);
 
@@ -83,7 +83,7 @@ const ladderLength = (beginWord, endWord, wordList) => {
 
             queue.enqueue({
                 word: newWord,
-                numTransformationsSoFar: numTransformationsSoFar + 1,
+                sequenceLengthSoFar: sequenceLengthSoFar + 1,
             });
         }
     }
