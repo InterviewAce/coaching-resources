@@ -17,6 +17,46 @@ const buildGraph = (dependencies) => {
     return graph;
 };
 
+/*
+Why this solution works:
+
+We claim that we can determine whether or not it is possible to finish all the
+courses by checking if the graph has cycles. The only way it could be impossible
+to finish all the courses is if there is at least one class that is
+impossible to complete. This means that we cannot meet this class's prerequisites
+without completing this class. This is what a cycle is.
+
+So, we've reduced this problem to checking if the given graph has a cycle. We'll
+focus on this sentence from the above paragraph:
+"This means that we cannot meet this class's prerequisites without completing this
+class."
+
+This tells us the following: we have hit a cycle if our current class (call it
+curClass) has a prerequisite (call it prereq) such that prereq requires curClass
+to be completed (directly or potentially indirectly, e.g. curClass depends on prereq
+which depends on otherClass and otherClass depends on curClass). More generally, we can 
+test for cycles by starting at some node and traversing the graph. If we get back
+to our start node somehow, then we have a cycle of dependencies, meaning its
+impossible to take all of these classes.
+
+So, in our algorithm, we'll start from every course and try traversing the graph.
+We maintain 3 different states in our visited array: 
+-CURRENTLY_VISITING
+-UNVISITED
+-PREVIOUSLY_VISITED
+
+If we ever reach a node that is already marked as CURRENTLY_VISITING, then we
+know we have a cycle. We got back to the same point in the graph. If we explore
+the entire component and that never happens, then we know that the current
+section of the graph that we are traversing does NOT have any cycles. We also mark
+that whole section of the graph as PREVIOUSLY_VISITED so we can skip it in the
+future.
+
+If we check every node in the graph and conclude that each node's section does NOT
+have any cycles, then we know the graph does NOT have any cycles, meaning it IS
+possible to complete all of the courses.
+*/
+
 const checkIfHasCycle = (courseNum, graph, visited) => {
     // Base case
     if (visited[courseNum] == CURRENTLY_VISITING) return true;
@@ -47,6 +87,8 @@ const canFinish = (numCourses, prerequisites) => {
     const visited = new Array(numCourses).fill(UNVISITED);
 
     for (let courseNum = 0; courseNum < numCourses; courseNum++) {
+        if (visited[courseNum] === PREVIOUSLY_VISITED) continue;
+
         const hasCycle = checkIfHasCycle(courseNum, graph, visited);
 
         if (hasCycle) return false;
