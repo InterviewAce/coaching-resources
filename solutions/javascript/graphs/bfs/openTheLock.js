@@ -1,12 +1,11 @@
 const START_COMBINATION = '0000';
 const IMPOSSIBLE_TO_OPEN = -1;
 
-const goUp = (char) => {
-    if (char === '9') {
-        const newCharInt = 0;
+const ZERO_STRING = '0';
+const NINE_STRING = '9';
 
-        return newCharInt.toString();
-    }
+const goUp = (char) => {
+    if (char === NINE_STRING) return ZERO_STRING;
 
     const charInt = parseInt(char);
     const newCharInt = charInt + 1;
@@ -15,11 +14,7 @@ const goUp = (char) => {
 };
 
 const goDown = (char) => {
-    if (char === '0') {
-        const newCharInt = 9;
-
-        return newCharInt.toString();
-    }
+    if (char === ZERO_STRING) return NINE_STRING;
 
     const charInt = parseInt(char);
     const newCharInt = charInt - 1;
@@ -34,7 +29,7 @@ const replaceCharAtI = (combination, i, char) => {
     return beforeI + char + afterI;
 };
 
-const getNeighbors = (combination, queue) => {
+const getNeighbors = (combination) => {
     const allNeighbors = [];
 
     for (let i = 0; i < combination.length; i++) {
