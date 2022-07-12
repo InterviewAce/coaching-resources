@@ -1,40 +1,39 @@
 const buildEmployeeMap = (employees) => {
-  const idToEmployeeMap = {};
+    const idToEmployeeMap = {};
 
-  for (let i = 0; i < employees.length; i++) {
-    const curEmployee = employees[i];
-    idToEmployeeMap[curEmployee.id] = curEmployee;
-  }
+    for (const employee of employees) {
+        idToEmployeeMap[employee.id] = employee;
+    }
 
-  return idToEmployeeMap;
+    return idToEmployeeMap;
 };
 
 const getTotalImportance = (employeeMap, rootId) => {
-  const stack = [];
-  stack.push(rootId);
+    const stack = [];
+    stack.push(rootId);
 
-  let totalImportance = 0;
+    let totalImportance = 0;
 
-  while (stack.length > 0) {
-    // Remove node
-    const employeeId = stack.pop();
+    while (stack.length > 0) {
+        // Remove node
+        const employeeId = stack.pop();
 
-    // Process node
-    const employee = employeeMap[employeeId];
-    totalImportance += employee.importance;
+        // Process node
+        const employee = employeeMap[employeeId];
+        totalImportance += employee.importance;
 
-    // Add children
-    const subordinates = employee.subordinates;
-    for (const subordinateId of subordinates) {
-      stack.push(subordinateId);
+        // Add children
+        const subordinates = employee.subordinates;
+        for (const subordinateId of subordinates) {
+            stack.push(subordinateId);
+        }
     }
-  }
 
-  return totalImportance;
+    return totalImportance;
 };
 
 const GetImportance = (employees, id) => {
-  const employeeMap = buildEmployeeMap(employees);
+    const employeeMap = buildEmployeeMap(employees);
 
-  return getTotalImportance(employeeMap, id);
+    return getTotalImportance(employeeMap, id);
 };

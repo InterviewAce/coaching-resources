@@ -1,9 +1,8 @@
 const buildEmployeeMap = (employees) => {
     const idToEmployeeMap = {};
 
-    for (let i = 0; i < employees.length; i++) {
-        const curEmployee = employees[i];
-        idToEmployeeMap[curEmployee.id] = curEmployee;
+    for (const employee of employees) {
+        idToEmployeeMap[employee.id] = employee;
     }
 
     return idToEmployeeMap;
