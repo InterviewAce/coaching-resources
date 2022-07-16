@@ -1,4 +1,10 @@
 const LAND = '1';
+const directions = [
+    [0, 1],
+    [1, 0],
+    [0, -1],
+    [-1, 0],
+];
 
 const createArrayOfSize = (numRows, numCols) => {
     const arr = new Array(numRows);
@@ -29,27 +35,30 @@ const markWholeIslandAsVisited = (grid, startRow, startCol, visited) => {
         const [row, col] = queue.dequeue();
 
         // Process node
-
-        // Note: we have tried putting the "isInBounds.has" and "visited.has" checks
-        // inside of the "Add neighbors" step, but we have not been able to get
-        // this to work on LeetCode. As of now, we're not sure why.
-        if (!isInBounds(grid, row, col)) continue;
-
-        // This is an undirected graph. From [0,0] we can go to [0,1] and from
-        // [0,1] we can go to [0,0].
-        // Thus, this graph CAN have cycles (all undirected graphs can have cycles),
-        // so we must tracked visited nodes to prevent infinite loops.
         if (visited[row][col]) continue;
 
-        if (grid[row][col] != LAND) continue; // Note this must come AFTER the isInBounds check
+        // if (visited[row][col]) continue;
+
+        if (grid[row][col] != LAND) continue;
 
         visited[row][col] = true;
 
         // Add neighbors
-        queue.enqueue([row - 1, col]); // up
-        queue.enqueue([row + 1, col]); // down
-        queue.enqueue([row, col - 1]); // left
-        queue.enqueue([row, col + 1]); // right
+        for (const direction of directions) {
+            const [rowChange, colChange] = direction;
+
+            const newRow = row + rowChange;
+            const newCol = col + colChange;
+
+            if (!isInBounds(grid, newRow, newCol)) continue;
+            // This is an undirected graph. From [0,0] we can go to [0,1] and from
+            // [0,1] we can go to [0,0].
+            // Thus, this graph CAN have cycles (all undirected graphs can have cycles),
+            // so we must tracked visited nodes to prevent infinite loops.
+            if (visited[newRow][newCol]) continue; // Note this must come AFTER the isInBounds check
+
+            queue.enqueue([newRow, newCol]);
+        }
     }
 };
 
