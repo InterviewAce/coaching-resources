@@ -37,9 +37,7 @@ const markWholeIslandAsVisited = (grid, startRow, startCol, visited) => {
         // Process node
         if (visited[row][col]) continue;
 
-        // if (visited[row][col]) continue;
-
-        if (grid[row][col] != LAND) continue;
+        if (grid[row][col] !== LAND) continue;
 
         visited[row][col] = true;
 
