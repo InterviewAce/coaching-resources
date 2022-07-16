@@ -1,20 +1,23 @@
 const buildGraph = (edges) => {
     const graph = {};
 
-    edges.forEach((edge) => {
+    for (const edge of edges) {
         const [nodeOne, nodeTwo] = edge;
 
-        if (!graph[nodeOne]) graph[nodeOne] = [];
-        if (!graph[nodeTwo]) graph[nodeTwo] = [];
+        const nodeOneInGraph = graph.hasOwnProperty(nodeOne);
+        const nodeTwoInGraph = graph.hasOwnProperty(nodeTwo);
+
+        if (!nodeOneInGraph) graph[nodeOne] = [];
+        if (!nodeTwoInGraph) graph[nodeTwo] = [];
 
         graph[nodeOne].push(nodeTwo);
         graph[nodeTwo].push(nodeOne);
-    });
+    }
 
     return graph;
 };
 
-const markComponentAsVisited = (graph, startNode, visited) => {
+const markGroupAsVisited = (startNode, graph, visited) => {
     const queue = new Queue();
     queue.enqueue(startNode);
 
@@ -26,15 +29,12 @@ const markComponentAsVisited = (graph, startNode, visited) => {
         visited.add(node);
 
         // Add neighbors
+        const nodeInGraph = graph.hasOwnProperty(node);
+        if (!nodeInGraph) continue;
+
         const neighbors = graph[node];
 
-        // Some nodes may have no neighbors, in which case neighbors would be
-        // `undefined`, causing an error when we try to iterate over it.
-        if (!neighbors) continue;
-
         for (const neighbor of neighbors) {
-            // This graph CAN have cycles (all undirected graphs can have cycles), so we must
-            // tracked visited nodes to prevent infinite loops.
             if (visited.has(neighbor)) continue;
 
             queue.enqueue(neighbor);
@@ -52,7 +52,7 @@ const countComponents = (numNodes, edges) => {
         if (visited.has(node)) continue;
 
         numConnectedComponents++;
-        markComponentAsVisited(graph, node, visited);
+        markGroupAsVisited(node, graph, visited);
     }
 
     return numConnectedComponents;
