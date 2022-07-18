@@ -4,6 +4,23 @@ const IMPOSSIBLE_TO_OPEN = -1;
 const ZERO_STRING = '0';
 const NINE_STRING = '9';
 
+/*
+Implicit graph:
+-node: combination of the lock ('0000')
+-neighbors: all combinations we can reach from the current combination
+
+neighbors of '0000':
+-'0001'
+-'0009'
+-'0010'
+-'0090'
+...
+
+Our graph is undirected:
+'0000' => '0001'
+'0001' => '0000'
+*/
+
 const goUp = (char) => {
     if (char === NINE_STRING) return ZERO_STRING;
 
