@@ -31,10 +31,6 @@ const isBipartite = (graph) => {
     const visited = new Array(numNodes).fill(UNVISITED);
 
     for (let node = 0; node < numNodes; node++) {
-        visited[node] = UNVISITED;
-    }
-
-    for (let node = 0; node < numNodes; node++) {
         if (visited[node] !== UNVISITED) continue;
 
         const canBeBipartite = checkIfCanBeBipartite(
