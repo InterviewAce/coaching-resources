@@ -2,7 +2,7 @@
 Imagine a calculator that has the following characters: 0-9, +, -, =, and the “c” symbol. 
 This functions like an old school calculator, so when you press a number, that's the
 only thing you see on the screen. When you press the equals sign, the calculator computes
-the specified values and returns the result The "c" key clears the screen. Write a function
+the specified values and returns the result. The "c" key clears the screen. Write a function
 `keyPress` in a class `Calculator` that takes in a key and returns what would appear on the 
 calculator screen.
 
