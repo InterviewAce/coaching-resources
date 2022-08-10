@@ -1,4 +1,4 @@
-const LAND = "L";
+const LAND = 'L';
 const directions = [
     [0, 1],
     [1, 0],
@@ -6,7 +6,9 @@ const directions = [
     [-1, 0],
 ];
 
-const isValidPosition = (grid, row, col) => {
+const getPositionString = (row, col) => `${row}, ${col}`;
+
+const isInBounds = (grid, row, col) => {
     const numRows = grid.length;
     const numCols = grid[0].length;
 
@@ -18,14 +20,14 @@ const isValidPosition = (grid, row, col) => {
 
 const getIslandArea = (row, col, grid, visited) => {
     // Base case
-    if (!isValidPosition(grid, row, col)) return 0;
+    if (!isInBounds(grid, row, col)) return 0;
     if (grid[row][col] !== LAND) return 0;
 
-    // Process node
-    const position = `${row}, ${col}`;
-    if (visited.has(position)) return 0;
-    visited.add(position);
+    const curPositionString = getPositionString(row, col);
+    if (visited.has(curPositionString)) return 0;
 
+    // Process node
+    visited.add(curPositionString);
     let islandArea = 1; // The 1 represents our current cell
 
     // Recurse on neighbors
@@ -53,20 +55,20 @@ const minimumIsland = (grid) => {
     for (let row = 0; row < numRows; row++) {
         for (let col = 0; col < numCols; col++) {
             const terrainType = grid[row][col];
+            const curPositionString = getPositionString(row, col);
+
             if (terrainType !== LAND) continue;
-          
-            const islandArea = getIslandArea(
-                row,
-                col,
-                grid,
-                visited,
-            );
-          
-            if (islandArea === 0) continue;
+            if (visited.has(curPositionString)) continue;
+
+            const islandArea = getIslandArea(row, col, grid, visited);
 
             minimumIslandArea = Math.min(minimumIslandArea, islandArea);
         }
     }
 
     return minimumIslandArea;
+};
+
+module.exports = {
+    minimumIsland,
 };
