@@ -20,7 +20,7 @@ const buildGraph = (equations, quotients) => {
     return graph;
 };
 
-const getQuotient = (dividend, divisor, graph, visited) => {
+const computeQuotient = (dividend, divisor, graph, visited) => {
     // Base cases
     if (visited.has(dividend)) return CANNOT_BE_DETERMINED;
     if (dividend === divisor) return 1;
@@ -33,7 +33,7 @@ const getQuotient = (dividend, divisor, graph, visited) => {
     for (const neighbor of neighbors) {
         const dividendOverNeighbor = graph[dividend][neighbor];
 
-        const neighborOverDivisor = getQuotient(
+        const neighborOverDivisor = computeQuotient(
             neighbor,
             divisor,
             graph,
@@ -61,7 +61,7 @@ const calcEquation = (equations, quotients, queries) => {
         }
 
         const visited = new Set();
-        const quotient = getQuotient(dividend, divisor, graph, visited);
+        const quotient = computeQuotient(dividend, divisor, graph, visited);
 
         queryResults.push(quotient);
     }
