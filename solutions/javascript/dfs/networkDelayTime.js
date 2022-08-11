@@ -16,13 +16,13 @@ const buildGraph = (edges) => {
 };
 
 const findMinTimeToReachNodesInComponent = (
-    node,
     graph,
+    node,
     minTimeToReach,
     timeElapsedSoFar,
 ) => {
     // Base cases
-    if (timeElapsedSoFar >= minTimeToReach[node]) return;
+    if (minTimeToReach[node] <= timeElapsedSoFar) return;
 
     // Process node
     minTimeToReach[node] = timeElapsedSoFar;
@@ -36,8 +36,8 @@ const findMinTimeToReachNodesInComponent = (
         const timeToReachNeighbor = graph[node][neighbor];
 
         findMinTimeToReachNodesInComponent(
-            neighbor,
             graph,
+            neighbor,
             minTimeToReach,
             timeElapsedSoFar + timeToReachNeighbor,
         );
@@ -48,16 +48,11 @@ const networkDelayTime = (times, numNodes, startNode) => {
     const graph = buildGraph(times);
 
     const minTimeToReach = new Array(numNodes + 1).fill(Infinity);
+    minTimeToReach[0] = -Infinity;
 
-    findMinTimeToReachNodesInComponent(startNode, graph, minTimeToReach, 0);
+    findMinTimeToReachNodesInComponent(graph, startNode, minTimeToReach, 0);
 
-    let minTimeToReachAllNodes = -Infinity;
-    for (let node = 1; node <= numNodes; node += 1) {
-        minTimeToReachAllNodes = Math.max(
-            minTimeToReachAllNodes,
-            minTimeToReach[node],
-        );
-    }
+    const minTimeToReachAllNodes = Math.max(...minTimeToReach);
 
     if (minTimeToReachAllNodes === Infinity) return CANNOT_REACH_ALL_NODES;
 
