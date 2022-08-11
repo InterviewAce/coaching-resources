@@ -1,38 +1,33 @@
-const START_NODE_ID = 0;
+const START_NODE = 0;
 
-const getAllPathsSourceTarget = (graph, currentNodeId, targetNodeId) => {
-  // Base case
-  if (currentNodeId === targetNodeId) {
-    return [[targetNodeId]];
-  }
+const getPathsFromNodeToTarget = (graph, curNode, targetNode) => {
+    // Base cases
+    if (curNode === targetNode) return [[curNode]];
 
-  // Process node - we don't really need to do much here. We
-  // basically look at paths from our neighbor to the target
-  // and then just prepend the current node.
+    // Process node
+    const allPathsFromNodeToTarget = [];
 
-  // Recurse on neighbors
-  const allPathsCurToTarget = [];
-  const neighbors = graph[currentNodeId];
+    // Recurse on neighbors
+    const neighbors = graph[curNode];
+    for (const neighbor of neighbors) {
+        const pathsFromNeighborToTarget = getPathsFromNodeToTarget(
+            graph,
+            neighbor,
+            targetNode,
+        );
 
-  for (const neighborId of neighbors) {
-    const pathsFromNeighborToTarget = getAllPathsSourceTarget(
-      graph,
-      neighborId,
-      targetNodeId,
-    );
+        for (const path of pathsFromNeighborToTarget) {
+            const pathFromCurToTarget = [curNode, ...path];
 
-    for (const path of pathsFromNeighborToTarget) {
-      const pathIncludingCur = [currentNodeId, ...path];
-
-      allPathsCurToTarget.push(pathIncludingCur);
+            allPathsFromNodeToTarget.push(pathFromCurToTarget);
+        }
     }
-  }
 
-  return allPathsCurToTarget;
+    return allPathsFromNodeToTarget;
 };
 
 const allPathsSourceTarget = (graph) => {
-  const targetNodeId = graph.length - 1;
+    const targetNode = graph.length - 1;
 
-  return getAllPathsSourceTarget(graph, START_NODE_ID, targetNodeId);
+    return getPathsFromNodeToTarget(graph, START_NODE, targetNode);
 };
