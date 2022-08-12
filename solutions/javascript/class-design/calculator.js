@@ -49,6 +49,10 @@ const CLEAR = 'c';
 
 const DIGIT_REGEX_PATTERN = new RegExp('^[0-9]*$');
 
+const isSequenceOfDigits = (string) => {
+    // Checks if key is a sequence of only digits (could be as a number type or a string type)
+    return string.match(DIGIT_REGEX_PATTERN);
+};
 class Calculator {
     constructor() {
         this.resetToDefault();
@@ -88,15 +92,6 @@ class Calculator {
         this.numBeforeOperation = parseInt(key);
     }
 
-    isSequenceOfDigits(key) {
-        const keyString = key.toString();
-
-        // Checks if key is a sequence of only digits (could be as a number type or a string type)
-        if (keyString.match(DIGIT_REGEX_PATTERN)) return true;
-
-        return false;
-    }
-
     keyPress(key) {
         switch (key) {
             case CLEAR:
@@ -118,7 +113,7 @@ class Calculator {
                 if (evaluationResult === null) return null;
 
                 this.resetToDefault();
-                this.numBeforeOperation = evaluationResult; // Set the result to be the num before the next opeartion
+                this.numBeforeOperation = evaluationResult; // Set the result to be the num before the next operation
 
                 // Example for the above line:
                 // 7
@@ -133,7 +128,8 @@ class Calculator {
                 return evaluationResult;
 
             default:
-                if (!this.isSequenceOfDigits(key)) {
+                const keyAsString = key.toString();
+                if (!isSequenceOfDigits(keyAsString)) {
                     console.log(
                         "Error: invalid input, you must enter 0-9, '+', '-', '=', or 'c'",
                     );
