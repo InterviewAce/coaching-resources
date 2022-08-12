@@ -8,7 +8,7 @@ then the tests should work). Our solution is also included below for you to refe
 */
 
 /*
-For this problem we'll aim to create a function that plays songs
+For this problem we'll aim to create a class that plays songs
 in a shuffled order. Specifically, you'll need to implement
 2 methods:
 - `addSong` which takes in a song and adds it to our current song list
@@ -20,11 +20,11 @@ At this point, you should probably ask some follow-up questions to your
 interviewer. Since you don't have an interviewer, below we've
 shown some important questions along with their answers. Before looking at
 them, we encourage you to brainstorm important questions that you'd
-ask if this was a real interviewer.
+ask if this was a real interview.
 
 Questions to ask interviewer (along with responses for each question):
 - What should I do when I have played all the songs? 
-Started over as if no songs had been played.
+Start over as if no songs had been played.
 
 - What should I do if a song is added in the middle of us playing songs?
 Add it to the pool of songs that can be played (until it is played, of course).
@@ -60,12 +60,13 @@ Suppose we have 5 songs:
 ["Song 1", "Song 2", "Song 3", "Song 4", "Song 5"]
   ^
 We have a pointer (named `this.startIdxOfUnusedSongs`) that points to the start 
-of the unused songs.
+of the unused songs. Songs that have been played will be stored at the beginning
+of the array (so before the `this.startIdxOfUnusedSongs` pointer).
 Initially, all the songs are unused.
 
 Now supposed we randomly select "Song 4". Then, before returning Song 4, we will
 move it to the "already played" section of our array. So, since we have no
-"already played songs", we simply move it to the beginnign array. Thus,
+"already played songs", we simply move it to the beginning of the array. Thus,
 we swap "Song 1" and "Song 4". So, our array now looks like this
 
 ["Song 4", "Song 2", "Song 3", "Song 1", "Song 5"]
@@ -86,6 +87,17 @@ Suppose we selected "Song 5" next, here's what would happen to our array:
 And now we return "Song 5".
 
 */
+
+/**
+ * Returns a random integer in the range [startOfRange, endOfRange).
+ * @param {number} startOfRange This value is inclusive
+ * @param {number} endOfRange This value is exclusive
+ */
+const getRandomInteger = (startOfRange, endOfRange) => {
+    const rangeSize = endOfRange - startOfRange;
+    return startOfRange + Math.floor(Math.random() * rangeSize);
+};
+
 class Shuffle {
     constructor() {
         this.songs = [];
@@ -94,17 +106,6 @@ class Shuffle {
 
     addSong(newSong) {
         this.songs.push(newSong);
-    }
-
-    /**
-     * Returns a random integer in the range [startOfRange, endOfRange).
-     * @param {number} startOfRange This value is inclusive
-     * @param {number} endOfRange This value is exclusive
-     */
-    getRandomInteger(startOfRange, endOfRange) {
-        const rangeSize = endOfRange - startOfRange;
-
-        return startOfRange + Math.floor(Math.random(0, 1) * rangeSize);
     }
 
     swapSongs(i, j) {
@@ -126,7 +127,7 @@ class Shuffle {
             this.restartShuffle();
         }
 
-        const songToPlayIdx = this.getRandomInteger(
+        const songToPlayIdx = getRandomInteger(
             this.startIdxOfUnusedSongs,
             this.songs.length,
         );
@@ -135,7 +136,7 @@ class Shuffle {
 
         this.swapSongs(this.startIdxOfUnusedSongs, songToPlayIdx);
 
-        this.startIdxOfUnusedSongs++;
+        this.startIdxOfUnusedSongs += 1;
 
         return songToPlay;
     }
@@ -186,7 +187,7 @@ console.log();
 songShuffler = new Shuffle();
 
 console.log('Test 3:');
-console.log(songShuffler.getRandomUnplayedSong() === null);
+console.log(songShuffler.playSong() === undefined);
 console.log();
 
 // Test 4 - add songs, shuffle a few times, then add another song and shuffle more
@@ -207,7 +208,8 @@ console.log();
 /*
 Follow-up: Imagine that we are given the user's favorite genre, and when songs
 are added, we also have access to their genre. When shuffling, we want to
-give a higher weight to songs from the user's favorite genre.
+give a higher weight to songs from the user's favorite genre. How can we do
+this?
 
 Our answer can be found below.
 
