@@ -1,32 +1,26 @@
-const ROOM_ZERO = 0;
+const START_ROOM = 0;
+
+const markReachableNodesAsVisited = (curNode, graph, visited) => {
+    // Base cases
+    if (visited.has(curNode)) return;
+
+    // Process node
+    visited.add(curNode);
+
+    // Recurse on neighbors
+    const neighbors = graph[curNode];
+    for (const neighbor of neighbors) {
+        markReachableNodesAsVisited(neighbor, graph, visited);
+    }
+};
 
 const canVisitAllRooms = (rooms) => {
-    const stack = [];
-    stack.push(ROOM_ZERO);
+    const visited = new Set();
 
-    const visitedRooms = new Set();
+    markReachableNodesAsVisited(START_ROOM, rooms, visited);
 
-    while (stack.length > 0) {
-        // Remove node
-        const roomNumber = stack.pop();
-
-        // Process node
-        // This graph is directed, but it still CAN have cycles. For example, room 0
-        // can have the key to room 4, and room 4 can have the key to room 0.
-        // So, we must tracked visited nodes to prevent infinite loops.
-        if (visitedRooms.has(roomNumber)) continue;
-
-        visitedRooms.add(roomNumber);
-        const unlockableRooms = rooms[roomNumber];
-
-        // Add neighbors
-        for (const unlockableRoom of unlockableRooms) {
-            stack.push(unlockableRoom);
-        }
-    }
-
-    const numRoomsCanVisit = visitedRooms.size;
+    const numReachableRooms = visited.size;
     const numRooms = rooms.length;
 
-    return numRoomsCanVisit == numRooms;
+    return numReachableRooms === numRooms;
 };
