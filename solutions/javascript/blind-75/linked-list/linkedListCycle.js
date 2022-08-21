@@ -1,15 +1,15 @@
 const hasCycle = (head) => {
-    let slowNode = head;
-    let fastNode = head;
+    let slowPointer = head;
+    let fastPointer = head;
 
-    while (fastNode) {
-        // Move the slow node once
-        slowNode = slowNode.next;
-        // Move the fast node twice, checking if it we can do so
-        fastNode = fastNode.next?.next;
+    while (fastPointer) {
+        // Move the slow pointer once
+        slowPointer = slowPointer.next;
+        // Move the fast pointer twice, checking if it we can do so
+        fastPointer = fastPointer.next?.next;
 
-        // If the slow node and the fast node have met, this list is a cycle
-        if (slowNode === fastNode) return true;
+        // If the slow pointer and the fast pointer point to the same node, this list is a cycle
+        if (slowPointer === fastPointer) return true;
     }
 
     // If you have reached the end, this list is not a cycle
