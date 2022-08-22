@@ -15,17 +15,19 @@ const deleteNextNode = (prevNode) => {
 const removeNthFromEnd = (head, n) => {
     // We use a dummy node to avoid having to check if the node to remove is the head
     const sentinel = new ListNode(0, head);
-    let nodeBeforeNthFromEnd = sentinel;
-
-    let leadNode = getNode(head, n + 1);
     
-     // We move the nth node to the end while also moving the other node the same number of times
-    while (leadNode) {
-        leadNode = leadNode.next;
-        nodeBeforeNthFromEnd = nodeBeforeNthFromEnd.next;
+    // first and second pointer are n nodes apart
+    let firstPointer = sentinel;
+    let secondPointer = getNode(head, n + 1);
+    
+    // We move both pointers until the second pointer reaches the end
+    while (secondPointer) {
+        firstPointer = firstPointer.next;
+        secondPointer = secondPointer.next;
     }
     
-    deleteNextNode(nodeBeforeNthFromEnd);
+    // By this point, the first pointer will have n nodes in front of it
+    deleteNextNode(firstPointer);
     
     // We skip the dummy node to return the list
     return sentinel.next
