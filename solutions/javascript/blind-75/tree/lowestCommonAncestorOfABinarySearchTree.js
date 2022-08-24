@@ -1,20 +1,14 @@
 const lowestCommonAncestor = (root, p, q) => {
-    const parentVal = root.val;
-    const pVal = p.val;
-    const qVal = q.val;
-
-    const pGreaterThanParent = pVal > parentVal;
-    const qGreaterThanParent = qVal > parentVal;
-    const bothGreaterThanParent = pGreaterThanParent && qGreaterThanParent;
-    if (bothGreaterThanParent) {
-        return lowestCommonAncestor(root.right, p, q);
+    const pLessThanParent = p.val < root.val;
+    const qLessThanParent = q.val < root.val;
+    if (pLessThanParent && qLessThanParent) {
+        return lowestCommonAncestor(root.left, p, q);
     }
     
-    const pLessThanParent = pVal < parentVal;
-    const qLessThanParent = qVal < parentVal;
-    const bothLessThanParent = pLessThanParent && qLessThanParent;
-    if (bothLessThanParent) {
-        return lowestCommonAncestor(root.left, p, q);
+    const pGreaterThanParent = p.val > root.val;
+    const qGreaterThanParent = q.val > root.val;
+    if (pGreaterThanParent && qGreaterThanParent) {
+        return lowestCommonAncestor(root.right, p, q);
     }
     
     return root;
