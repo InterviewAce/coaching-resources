@@ -1,4 +1,4 @@
-/* Single-sourced BFS solution, passes 49/50 test cases on LeetCode */
+/* Single-sourced BFS solution, passes 49/50 test cases on LeetCode. A passing solution can be found later in this file. */
 
 const directions = [
     [0, 1],
