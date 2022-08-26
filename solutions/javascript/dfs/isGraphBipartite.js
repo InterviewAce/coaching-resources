@@ -1,26 +1,29 @@
-const SET_A = 1;
-const SET_B = -1;
 const UNVISITED = 0;
+const SET_A = -1;
+const SET_B = 1;
 
-const checkIfCanBeBipartite = (graph, node, visited, prevColor) => {
+const getOppositeSet = (prevAssignedSet) => prevAssignedSet * -1;
+
+const checkIfIsBipartite = (graph, node, visited, prevAssignedSet) => {
     // Base cases
-    if (visited[node] !== UNVISITED) return visited[node] !== prevColor;
+    if (visited[node] !== UNVISITED) {
+        return visited[node] === getOppositeSet(prevAssignedSet);
+    }
 
     // Process node
-    if (prevColor === null || prevColor === SET_B) visited[node] = SET_A;
-    else visited[node] = SET_B;
+    visited[node] = getOppositeSet(prevAssignedSet);
 
-    // Handle neighbors
+    // Recurse on neighbors
     const neighbors = graph[node];
     for (const neighbor of neighbors) {
-        const canBeBipartite = checkIfCanBeBipartite(
+        const remainingComponentIsBipartite = checkIfIsBipartite(
             graph,
             neighbor,
             visited,
             visited[node],
         );
 
-        if (!canBeBipartite) return false;
+        if (!remainingComponentIsBipartite) return false;
     }
 
     return true;
@@ -30,17 +33,16 @@ const isBipartite = (graph) => {
     const numNodes = graph.length;
     const visited = new Array(numNodes).fill(UNVISITED);
 
-    for (let node = 0; node < numNodes; node++) {
+    for (let node = 0; node < numNodes; node += 1) {
         if (visited[node] !== UNVISITED) continue;
 
-        const canBeBipartite = checkIfCanBeBipartite(
+        const curComponentIsBipartite = checkIfIsBipartite(
             graph,
             node,
             visited,
-            null,
+            SET_B,
         );
-
-        if (!canBeBipartite) return false;
+        if (!curComponentIsBipartite) return false;
     }
 
     return true;
