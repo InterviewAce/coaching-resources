@@ -1,7 +1,12 @@
 class MinHeap {
     constructor(elements = []) {
         this.elements = elements;
-        this.comparisonFunction = (a, b) => a - b;
+        this.shouldSwap = (lowerElement, higherElement) => {
+            // Min element should be at the top, so if the lower element is smaller,
+            // we should swap
+            if (lowerElement < higherElement) return true;
+            return false;
+        };
 
         this.FIRST_IDX = 0;
 
@@ -49,11 +54,12 @@ class MinHeap {
     }
 
     getLeftChildIdx(parentIdx) {
-        return parentIdx * 2;
+        // TODO: change?
+        return parentIdx * 2 + 1;
     }
 
     getRightChildIdx(parentIdx) {
-        return parentIdx * 2 + 1;
+        return parentIdx * 2 + 2;
     }
 
     siftUp(curIdx) {
@@ -63,16 +69,16 @@ class MinHeap {
             const curElement = this.elements[curIdx];
             const parentElement = this.elements[parentIdx];
 
-            const curSmallerThanParent = this.comparisonFunction(curElement, parentElement) < 0;
-
-            if (curSmallerThanParent) {
+            if (this.shouldSwap(curElement, parentElement)) {
                 this.swapElements(curIdx, parentIdx);
                 curIdx = parentIdx;
             } else break;
         }
     }
 
-    getMinChild(curIdx) {
+    getMinChildIdx(curIdx) {
+        // We assume that at least one child exists
+
         const leftChildIdx = this.getLeftChildIdx(curIdx);
         const rightChildIdx = this.getRightChildIdx(curIdx);
 
@@ -81,19 +87,20 @@ class MinHeap {
         const leftChild = this.elements[leftChildIdx];
         const rightChild = this.elements[rightChildIdx];
 
-        if (leftChild < rightChild) return leftChildIdx;
+        if (this.shouldSwap(leftChild, rightChild)) return leftChildIdx;
         return rightChildIdx;
     }
 
     siftDown(curIdx) {
         while (this.getLeftChildIdx(curIdx) < this.size()) {
-            const minChildIdx = this.getMinChild(curIdx);
+            const minChildIdx = this.getMinChildIdx(curIdx);
 
             const curElement = this.elements[curIdx];
             const minChildElement = this.elements[minChildIdx];
 
-            const curGreaterThanParent = this.comparisonFunction(curElement, minChildElement) > 0;
-            if (curElement) this.swapElements(curIdx, minChildIdx);
+            if (this.shouldSwap(minChildElement, curElement))
+                this.swapElements(curIdx, minChildIdx);
+            else break;
 
             curIdx = minChildIdx;
         }
