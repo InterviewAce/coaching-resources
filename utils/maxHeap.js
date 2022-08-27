@@ -1,12 +1,12 @@
 class MaxHeap {
     constructor(elements = []) {
         this.elements = elements;
-        // this.shouldSwap = (lowerElement, higherElement) => {
-        //     if (lowerElement > higherElement) return true;
-        //     return false;
-        // }
-
-        this.comparisonFunction = (a, b) => b - a; // TODO: rename to shouldSwap(lowerEl, higherEl)
+        this.shouldSwap = (lowerElement, higherElement) => {
+            // Max element should be at the top, so if the lower element is larger,
+            // we should swap
+            if (lowerElement > higherElement) return true;
+            return false;
+        };
 
         this.FIRST_IDX = 0;
 
@@ -69,9 +69,7 @@ class MaxHeap {
             const curElement = this.elements[curIdx];
             const parentElement = this.elements[parentIdx];
 
-            const shouldSwap = this.comparisonFunction(curElement, parentElement) < 0;
-
-            if (shouldSwap) {
+            if (this.shouldSwap(curElement, parentElement)) {
                 this.swapElements(curIdx, parentIdx);
                 curIdx = parentIdx;
             } else break;
@@ -89,7 +87,7 @@ class MaxHeap {
         const leftChild = this.elements[leftChildIdx];
         const rightChild = this.elements[rightChildIdx];
 
-        if (this.comparisonFunction(leftChild, rightChild) < 0) return leftChildIdx;
+        if (this.shouldSwap(leftChild, rightChild)) return leftChildIdx;
         return rightChildIdx;
     }
 
@@ -101,9 +99,8 @@ class MaxHeap {
             const curElement = this.elements[curIdx];
             const maxChildElement = this.elements[maxChildIdx];
 
-            const shouldSwap = this.comparisonFunction(curElement, maxChildElement) > 0;
-
-            if (shouldSwap) this.swapElements(curIdx, maxChildIdx);
+            if (this.shouldSwap(maxChildElement, curElement))
+                this.swapElements(curIdx, maxChildIdx);
             else break;
 
             curIdx = maxChildIdx;
@@ -122,7 +119,7 @@ maxHeap.push(15);
 maxHeap.push(25);
 maxHeap.push(35);
 
-console.log(maxHeap.getElements()); // [5,15,35,90,25,100]
+console.log(maxHeap.getElements()); // [90,15,35,5,25,10]
 console.log(maxHeap.size()); // 6
 console.log(maxHeap.remove()); // 90
 console.log(maxHeap.remove()); // 35
