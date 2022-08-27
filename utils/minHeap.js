@@ -5,7 +5,7 @@ class MinHeap {
 
         this.FIRST_IDX = 0;
 
-        for (let i = 0; i < this.elements.length; i += 1) {
+        for (let i = this.FIRST_IDX; i < this.elements.length; i += 1) {
             this.siftDown(i);
         }
     }
