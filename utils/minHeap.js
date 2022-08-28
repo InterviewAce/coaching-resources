@@ -33,7 +33,7 @@ class MinHeap {
         this.elements[j] = temp;
     }
 
-    remove() {
+    pop() {
         if (this.size() === 0) return null;
 
         const lastIdx = this.size() - 1;
@@ -120,8 +120,8 @@ minHeap.push(35);
 
 console.log(minHeap.getElements()); // [5,15,35,90,25,100]
 console.log(minHeap.size()); // 6
-console.log(minHeap.remove()); // 5
-console.log(minHeap.remove()); // 15
+console.log(minHeap.pop()); // 5
+console.log(minHeap.pop()); // 15
 console.log(minHeap.size()); // 4
 
 console.log(minHeap);

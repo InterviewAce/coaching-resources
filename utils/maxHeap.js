@@ -34,7 +34,7 @@ class MaxHeap {
         this.elements[j] = temp;
     }
 
-    remove() {
+    pop() {
         if (this.size() === 0) return null;
 
         const lastIdx = this.size() - 1;
@@ -121,6 +121,6 @@ maxHeap.push(35);
 
 console.log(maxHeap.getElements()); // [90,15,35,5,25,10]
 console.log(maxHeap.size()); // 6
-console.log(maxHeap.remove()); // 90
-console.log(maxHeap.remove()); // 35
+console.log(maxHeap.pop()); // 90
+console.log(maxHeap.pop()); // 35
 console.log(maxHeap.size()); // 4
