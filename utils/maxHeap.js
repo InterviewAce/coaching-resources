@@ -1,17 +1,21 @@
+/*
+When passing a comparisonFunction, your comparisonFunction should take in
+two elements a, b and return a positive number if a is greater than b,
+a negative number if a is less than b, and 0 if a is equal to b.
+
+For example, (a, b) => a - b works if we are just dealing with two numbers.
+*/
+
 class MaxHeap {
-    constructor(elements = []) {
+    constructor(elements = [], comparisonFunction = null) {
         this.elements = elements;
-        this.shouldSwap = (lowerElement, higherElement) => {
-            // Max element should be at the top, so if the lower element is larger,
-            // we should swap
-            if (lowerElement > higherElement) return true;
-            return false;
-        };
+
+        this.comparisonFunction =
+            comparisonFunction !== null ? comparisonFunction : (a, b) => a - b;
 
         this.FIRST_IDX = 0;
 
-        for (let i = this.FIRST_IDX; i <= this.FIRST_IDX; i += 1) {
-            console.log(this.elements);
+        for (let i = this.FIRST_IDX; i <= this.elements.length; i += 1) {
             this.siftDown(i);
         }
     }
@@ -51,7 +55,7 @@ class MaxHeap {
     }
 
     getParentIdx(curIdx) {
-        return (curIdx - 1) / 2;
+        return Math.floor((curIdx - 1) / 2);
     }
 
     getLeftChildIdx(parentIdx) {
@@ -69,7 +73,7 @@ class MaxHeap {
             const curElement = this.elements[curIdx];
             const parentElement = this.elements[parentIdx];
 
-            if (this.shouldSwap(curElement, parentElement)) {
+            if (this.comparisonFunction(curElement, parentElement) > 0) {
                 this.swapElements(curIdx, parentIdx);
                 curIdx = parentIdx;
             } else break;
@@ -87,7 +91,7 @@ class MaxHeap {
         const leftChild = this.elements[leftChildIdx];
         const rightChild = this.elements[rightChildIdx];
 
-        if (this.shouldSwap(leftChild, rightChild)) return leftChildIdx;
+        if (this.comparisonFunction(leftChild, rightChild) > 0) return leftChildIdx;
         return rightChildIdx;
     }
 
@@ -99,7 +103,7 @@ class MaxHeap {
             const curElement = this.elements[curIdx];
             const maxChildElement = this.elements[maxChildIdx];
 
-            if (this.shouldSwap(maxChildElement, curElement))
+            if (this.comparisonFunction(maxChildElement, curElement) > 0)
                 this.swapElements(curIdx, maxChildIdx);
             else break;
 
