@@ -74,10 +74,14 @@ class MinHeap {
             const curElement = this.elements[curIdx];
             const parentElement = this.elements[parentIdx];
 
-            if (this.comparisonFunction(curElement, parentElement) < 0) {
+            if (this.comparisonFunction(parentElement, curElement) > 0) {
                 this.swapElements(curIdx, parentIdx);
                 curIdx = parentIdx;
             } else break;
+            // if (this.comparisonFunction(curElement, parentElement) < 0) {
+            //     this.swapElements(curIdx, parentIdx);
+            //     curIdx = parentIdx;
+            // } else break;
         }
     }
 
@@ -92,7 +96,8 @@ class MinHeap {
         const leftChild = this.elements[leftChildIdx];
         const rightChild = this.elements[rightChildIdx];
 
-        if (this.comparisonFunction(leftChild, rightChild) < 0) return leftChildIdx;
+        if (this.comparisonFunction(rightChild, leftChild) > 0) return leftChildIdx;
+        // if (this.comparisonFunction(leftChild, rightChild) < 0) return leftChildIdx;
         return rightChildIdx;
     }
 
@@ -103,8 +108,10 @@ class MinHeap {
             const curElement = this.elements[curIdx];
             const minChildElement = this.elements[minChildIdx];
 
-            if (this.comparisonFunction(minChildElement, curElement) < 0)
+            if (this.comparisonFunction(curElement, minChildElement) > 0)
                 this.swapElements(curIdx, minChildIdx);
+            // if (this.comparisonFunction(minChildElement, curElement) < 0)
+            //     this.swapElements(curIdx, minChildIdx);
             else break;
 
             curIdx = minChildIdx;
@@ -117,7 +124,7 @@ class MinHeap {
     }
 }
 
-const minHeap = new MinHeap([90, 5, 100]);
+let minHeap = new MinHeap([90, 5, 100]);
 
 minHeap.push(15);
 minHeap.push(25);
@@ -131,6 +138,6 @@ console.log(minHeap.size()); // 4
 
 console.log(minHeap);
 
-// const minHeap = new MinHeap([2, 3]);
-// minHeap.push(1);
-// console.log(minHeap.pop());
+minHeap = new MinHeap([2, 3]);
+minHeap.push(1);
+console.log(minHeap.pop()); // 1
