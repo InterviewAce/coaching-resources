@@ -5,66 +5,60 @@ const directions = [
     [-1, 0],
 ];
 
-const isValidPosition = (grid, row, col, visited, curPosition) => {
-    const numRows = grid.length;
-    const numCols = grid[0].length;
+const getPositionString = (row, col) => `${row}, ${col}`;
+
+const isInBounds = (board, row, col) => {
+    const numRows = board.length;
+    const numCols = board[0].length;
 
     const rowInBounds = row >= 0 && row < numRows;
     const colInBounds = col >= 0 && col < numCols;
 
-    if (!rowInBounds || !colInBounds) return false;
-
-    // This is an undirected graph. From the letter at position [1,3],
-    // we can go to the position [2,3] and from the position [2,3], we
-    // can go to the position [1,3].
-    // Thus, this graph CAN have cycles (all undirected graphs can have cycles),
-    // so we must tracked visited nodes to prevent infinite loops.
-    if (visited.has(curPosition)) return false;
-
-    return true;
+    return rowInBounds && colInBounds;
 };
 
-const searchForWordSubstring = (word, wordIdx, row, col, board, visited) => {
-    const curPosition = `${row}, ${col}`;
-
+const checkIfWordExists = (board, row, col, visited, word, wordIdx) => {
     // Base cases
-    const wordIsFinished = wordIdx >= word.length;
-    if (wordIsFinished) return true;
+    const curPositionString = getPositionString(row, col);
 
-    if (!isValidPosition(board, row, col, visited, curPosition)) return false;
+    if (wordIdx >= word.length) return true;
+
+    if (!isInBounds(board, row, col)) return false;
+    if (visited.has(curPositionString)) return false;
 
     // Process node
-    const curBoardChar = board[row][col];
-    const curCharInWord = word[wordIdx];
+    const boardChar = board[row][col];
+    const wordChar = word[wordIdx];
 
-    if (curBoardChar !== curCharInWord) return false;
+    visited.add(curPositionString);
 
-    visited.add(curPosition);
+    if (boardChar !== wordChar) {
+        visited.delete(curPositionString);
+        return false;
+    }
 
     // Recurse on neighbors
-
-    // Try going up, left, down, and right
     for (const direction of directions) {
         const [rowChange, colChange] = direction;
 
         const newRow = row + rowChange;
         const newCol = col + colChange;
 
-        // If the next square that we're looking at contains the remaining substring of `word`, then we've found our answer. For example, suppose word is "abcdef" and we have found "a", "b", "c" (so the letter we're currently on is "c"). Then, if we go one of our 4 directions and find that the position can form "def" without revisiting any of our visited squares, then we know we can form "abcdef" (since we already found "abc").
-        const remainingWordSubstringExists = searchForWordSubstring(
-            word,
-            wordIdx + 1,
+        const remainingWordExists = checkIfWordExists(
+            board,
             newRow,
             newCol,
-            board,
             visited,
+            word,
+            wordIdx + 1,
         );
-
-        if (remainingWordSubstringExists) return true;
+        if (remainingWordExists) {
+            visited.delete(curPositionString);
+            return true;
+        }
     }
 
-    visited.delete(curPosition);
-
+    visited.delete(curPositionString);
     return false;
 };
 
@@ -72,20 +66,13 @@ const exist = (board, word) => {
     const numRows = board.length;
     const numCols = board[0].length;
 
+    // const wordFirstChar = word[0];
     const visited = new Set();
 
-    for (let row = 0; row < numRows; row++) {
-        for (let col = 0; col < numCols; col++) {
-            const foundWord = searchForWordSubstring(
-                word,
-                0,
-                row,
-                col,
-                board,
-                visited,
-            );
-
-            if (foundWord) return true;
+    for (let row = 0; row < numRows; row += 1) {
+        for (let col = 0; col < numCols; col += 1) {
+            const wordExistsHere = checkIfWordExists(board, row, col, visited, word, 0);
+            if (wordExistsHere) return true;
         }
     }
 
