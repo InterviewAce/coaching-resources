@@ -1,86 +1,79 @@
 const directions = [
-  [0, 1],
-  [1, 0],
-  [0, -1],
-  [-1, 0],
+    [0, 1],
+    [1, 0],
+    [0, -1],
+    [-1, 0],
 ];
 
-const getLongestPathStartingAt = (
-  row,
-  col,
-  matrix,
-  longestIncreasingPathStartingAt,
-) => {
-  const curPosition = `${row},${col}`;
+const getPositionString = (row, col) => `${row}, ${col}`;
 
-  const curPositionInCache =
-    longestIncreasingPathStartingAt.hasOwnProperty(curPosition);
-  if (curPositionInCache) return longestIncreasingPathStartingAt[curPosition];
+const isInBounds = (matrix, row, col) => {
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
 
-  const numRows = matrix.length;
-  const numCols = matrix[0].length;
+    const rowInBounds = row >= 0 && row < numRows;
+    const colInBounds = col >= 0 && col < numCols;
 
-  const curPositionValue = matrix[row][col];
-  longestIncreasingPathStartingAt[curPosition] = 1;
+    return rowInBounds && colInBounds;
+};
 
-  for (const direction of directions) {
-    const [rowChange, colChange] = direction;
+const getLongestPathStartingAt = (matrix, row, col, longestIncreasingPathStartingAt) => {
+    // Base cases
+    const curPositionString = getPositionString(row, col);
+    const curPositionInCache = longestIncreasingPathStartingAt.hasOwnProperty(curPositionString);
 
-    const newRow = row + rowChange;
-    const newCol = col + colChange;
+    if (curPositionInCache) return longestIncreasingPathStartingAt[curPositionString];
 
-    // Validate positions
-    const newRowInBounds = newRow >= 0 && newRow < numRows;
-    const newColInBounds = newCol >= 0 && newCol < numCols;
+    // Process node
+    longestIncreasingPathStartingAt[curPositionString] = 1;
 
-    if (!newRowInBounds || !newColInBounds) continue;
+    // Recurse on neighbors
+    for (const direction of directions) {
+        const [rowChange, colChange] = direction;
 
-    const newPositionValue = matrix[newRow][newCol];
-    const newPositionGreaterThanCur = newPositionValue > curPositionValue;
+        const newRow = row + rowChange;
+        const newCol = col + colChange;
 
-    if (newPositionGreaterThanCur) {
-      const pathSizeWithNewPosition =
-        1 +
-        getLongestPathStartingAt(
-          newRow,
-          newCol,
-          matrix,
-          longestIncreasingPathStartingAt,
-        );
+        if (!isInBounds(matrix, newRow, newCol)) continue;
 
-      longestIncreasingPathStartingAt[curPosition] = Math.max(
-        longestIncreasingPathStartingAt[curPosition],
-        pathSizeWithNewPosition,
-      );
+        const isIncreasing = matrix[row][col] < matrix[newRow][newCol];
+        if (isIncreasing) {
+            const pathSizeWithNewPosition =
+                1 +
+                getLongestPathStartingAt(matrix, newRow, newCol, longestIncreasingPathStartingAt);
+
+            longestIncreasingPathStartingAt[curPositionString] = Math.max(
+                longestIncreasingPathStartingAt[curPositionString],
+                pathSizeWithNewPosition,
+            );
+        }
     }
-  }
 
-  return longestIncreasingPathStartingAt[curPosition];
+    return longestIncreasingPathStartingAt[curPositionString];
 };
 
 const longestIncreasingPath = (matrix) => {
-  const numRows = matrix.length;
-  const numCols = matrix[0].length;
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
 
-  const longestIncreasingPathStartingAt = {};
+    let longestIncreasingPathLength = 0;
+    const longestIncreasingPathStartingAt = {};
 
-  let longestIncreasingPathSize = 0;
+    for (let row = 0; row < numRows; row += 1) {
+        for (let col = 0; col < numCols; col += 1) {
+            const longestIncreasingPathStartingAtCur = getLongestPathStartingAt(
+                matrix,
+                row,
+                col,
+                longestIncreasingPathStartingAt,
+            );
 
-  for (let row = 0; row < numRows; row++) {
-    for (let col = 0; col < numCols; col++) {
-      const longestPathStartingAtCur = getLongestPathStartingAt(
-        row,
-        col,
-        matrix,
-        longestIncreasingPathStartingAt,
-      );
-
-      longestIncreasingPathSize = Math.max(
-        longestIncreasingPathSize,
-        longestPathStartingAtCur,
-      );
+            longestIncreasingPathLength = Math.max(
+                longestIncreasingPathLength,
+                longestIncreasingPathStartingAtCur,
+            );
+        }
     }
-  }
 
-  return longestIncreasingPathSize;
+    return longestIncreasingPathLength;
 };
