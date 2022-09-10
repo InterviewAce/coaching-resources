@@ -8,6 +8,31 @@ TOP_LEFT_COL = 0
 directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
 class Solution:
+    def is_in_bounds(self, grid, row, col):
+        num_rows = len(grid)
+        num_cols = len(grid[0])
+        
+        row_in_bounds = row >= 0 and row < num_rows
+        col_in_bounds = col >= 0 and col < num_cols
+        
+        return row_in_bounds and col_in_bounds
+    
+    def get_neighbors(self, grid, row, col):
+        neighbors = []
+        
+        for row_difference, col_difference in directions:
+            new_row = row + row_difference
+            new_col = col + col_difference
+            
+            if not self.is_in_bounds(grid, new_row, new_col):
+                continue
+            if grid[new_row][new_col] != CLEAR:
+                continue
+            
+            neighbors.append((new_row, new_col))
+        
+        return neighbors
+    
     def shortestPathBinaryMatrix(self, grid):
         num_rows = len(grid)
         num_cols = len(grid[0])
@@ -36,28 +61,3 @@ class Solution:
                 queue.append((*neighbor, path_length + 1))
         
         return NO_CLEAR_PATH
-    
-    def get_neighbors(self, grid, row, col):
-        neighbors = []
-        
-        for row_difference, col_difference in directions:
-            new_row = row + row_difference
-            new_col = col + col_difference
-            
-            if not self.is_in_bounds(grid, new_row, new_col):
-                continue
-            if grid[new_row][new_col] != CLEAR:
-                continue
-            
-            neighbors.append((new_row, new_col))
-        
-        return neighbors
-            
-    def is_in_bounds(self, grid, row, col):
-        num_rows = len(grid)
-        num_cols = len(grid[0])
-        
-        row_in_bounds = row >= 0 and row < num_rows
-        col_in_bounds = col >= 0 and col < num_cols
-        
-        return row_in_bounds and col_in_bounds

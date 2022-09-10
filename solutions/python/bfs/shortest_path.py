@@ -1,7 +1,15 @@
-from collections import deque
-from collections import defaultdict
+from collections import deque, defaultdict
 
 NO_PATH = -1
+
+def build_graph(edges):
+  graph = defaultdict([])
+  
+  for node_one, node_two in edges:
+    graph[node_one].append(node_two)
+    graph[node_two].append(node_one)
+    
+  return graph
 
 def shortest_path(edges, start_node, end_node):
   graph = build_graph(edges)
@@ -25,12 +33,3 @@ def shortest_path(edges, start_node, end_node):
       queue.append((neighbor, distance + 1))
         
   return NO_PATH
-  
-def build_graph(edges):
-  graph = defaultdict([])
-  
-  for node_one, node_two in edges:
-    graph[node_one].append(node_two)
-    graph[node_two].append(node_one)
-    
-  return graph
