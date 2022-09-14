@@ -3,7 +3,7 @@ from collections import deque, defaultdict
 NO_PATH = -1
 
 def build_graph(edges):
-  graph = defaultdict([])
+  graph = defaultdict(list)
   
   for node_one, node_two in edges:
     graph[node_one].append(node_two)
