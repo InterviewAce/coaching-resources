@@ -1,51 +1,35 @@
-/*
-Cars, Motorcycle, Truck - vehicles
-
-*/
-
 class Vehicle {
-    constructor(licensePlate) {
-        if (this.constructor === Vehicle) throw new Error('cannot initialize Vehicle');
+    constructor(licensePlate, maxSpeed, remainingGas) {
+        if (this.constructor === Vehicle) throw new Error('cannot instantiate the Vehicle class');
 
         this.licensePlate = licensePlate;
+        this.maxSpeed = maxSpeed;
+        this.remainingGas = remainingGas;
     }
 
-    assignTicket() {
-        throw new Error('cannot assign ticket to a generic vehicle');
+    driveToStore() {
+        this.remainingGas -= 2;
     }
 }
 
 class Car extends Vehicle {
-    constructor(licensePlate) {
-        super(licensePlate);
-    }
-
-    assignTicket() {
-        return 'car ticket';
+    constructor(licensePlate, maxSpeed, remainingGas) {
+        super(licensePlate, maxSpeed, remainingGas);
     }
 }
 
 class Motorcycle extends Vehicle {
-    constructor(licensePlate) {
-        super(licensePlate);
-    }
-
-    assignTicket() {
-        return 'motorcycle ticket';
+    constructor(licensePlate, maxSpeed, remainingGas) {
+        super(licensePlate, maxSpeed, remainingGas);
     }
 }
 
 class Truck extends Vehicle {
-    constructor(licensePlate) {
-        super(licensePlate);
-    }
-
-    assignTicket() {
-        return 'truck ticket';
+    constructor(licensePlate, maxSpeed, remainingGas) {
+        super(licensePlate, maxSpeed, remainingGas);
     }
 }
 
-const myCar = new Car('999ABC');
-console.log(myCar.assignTicket());
-
-const myVehicle = new Vehicle('123PLM');
+const shreshthCar = new Car('111abc', 15, 10);
+const otherPersonMotorcycle = new Motorcycle('123zxc', 5, 10);
+const otherOtherPersonVehicle = new Vehicle('jkl090', 10, 5);
