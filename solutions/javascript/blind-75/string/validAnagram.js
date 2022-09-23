@@ -1,34 +1,35 @@
 const getFrequencyCount = (array) => {
     const frequencyCount = {};
 
-    array.forEach((element) => {
+    for (const element of array) {
         const inFrequencyCount = frequencyCount.hasOwnProperty(element);
 
         if (!inFrequencyCount) frequencyCount[element] = 0;
         frequencyCount[element]++;
-    });
+    }
 
     return frequencyCount;
-}
+};
 
-const checkIfObjectIsSuperset = (set, potentialSuperset) => {
-    const setKeys = Object.keys(set);
+const areIdenticalObjects = (objectOne, objectTwo) => {
+    const objectOneKeys = Object.keys(objectOne);
 
-    for (const key of setKeys) {
-        const keyInPotentialSuperset = potentialSuperset.hasOwnProperty(key);
+    for (const key of objectOneKeys) {
+        const keyInObjectTwo = objectTwo.hasOwnProperty(key);
 
-        if (!keyInPotentialSuperset || set[key] !== potentialSuperset[key]) return false;
+        if (!keyInObjectTwo || objectOne[key] !== objectTwo[key]) return false;
+    }
+
+    const objectTwoKeys = Object.keys(objectTwo);
+
+    for (const key of objectTwoKeys) {
+        const keyInObjectOne = objectOne.hasOwnProperty(key);
+
+        if (!keyInObjectOne || objectOne[key] !== objectTwo[key]) return false;
     }
 
     return true;
-}
-
-const areIdenticalObjects = (objectOne, objectTwo) => {
-    const objectOneIsSuperset = checkIfObjectIsSuperset(objectOne, objectTwo);
-    const objectTwoIsSuperset = checkIfObjectIsSuperset(objectTwo, objectOne);
-
-    return objectOneIsSuperset && objectTwoIsSuperset;
-}
+};
 
 const isAnagram = (stringOne, stringTwo) => {
     if (stringOne.length !== stringTwo.length) return false;
