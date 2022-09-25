@@ -17,7 +17,7 @@ class Solution:
             node = queue.popleft()
             
             # Process node
-            visited.add(node)
+            # No work required here for this problem
             
             # Add neighbors
             neighbors = graph[node]
@@ -25,7 +25,7 @@ class Solution:
             for neighbor in neighbors:
                 if neighbor in visited:
                     continue
-                    
+                visited.add(neighbor)
                 queue.append(neighbor)
     
     def countComponents(self, num_nodes: int, edges: List[List[int]]) -> int:
