@@ -17,36 +17,72 @@ const isInBounds = (grid, row, col) => {
     return rowInBounds && colInBounds;
 };
 
-const replaceColorOfConnectedComponent = (image, row, col, colorToReplace, newColor, visited) => {
-    // Base cases
-    if (!isInBounds(image, row, col)) return;
+const getNeighbors = (image, row, col, colorToReplace) => {
+    const neighbors = [];
 
-    const curPositionString = getPositionString(row, col);
-    if (visited.has(curPositionString)) return;
-
-    const curColor = image[row][col];
-    if (curColor !== colorToReplace) return;
-
-    // Process node
-    image[row][col] = newColor;
-    visited.add(curPositionString);
-
-    // Recurse on potential neighbors
     for (const direction of directions) {
         const [rowChange, colChange] = direction;
 
         const newRow = row + rowChange;
         const newCol = col + colChange;
 
-        replaceColorOfConnectedComponent(image, newRow, newCol, colorToReplace, newColor, visited);
+        if (!isInBounds(image, newRow, newCol)) continue;
+        if (image[newRow][newCol] !== colorToReplace) continue;
+
+        neighbors.push({
+            row: newRow,
+            col: newCol,
+        });
+    }
+
+    return neighbors;
+};
+
+const replaceColorOfConnectedComponent = (
+    image,
+    startRow,
+    startCol,
+    colorToReplace,
+    newColor,
+    visited,
+) => {
+    const queue = new Queue();
+    queue.enqueue({
+        row: startRow,
+        col: startCol,
+    });
+
+    visited.add(getPositionString(startRow, startCol));
+
+    while (queue.size() > 0) {
+        // Remove node
+        const { row, col } = queue.dequeue();
+
+        // Process node
+        image[row][col] = newColor;
+
+        // Add neighbors
+        const neighborPositions = getNeighbors(image, row, col, colorToReplace);
+        for (const neighborPosition of neighborPositions) {
+            const { row: neighborRow, col: neighborCol } = neighborPosition;
+            const neighborPositionString = getPositionString(neighborRow, neighborCol);
+
+            if (visited.has(neighborPositionString)) continue;
+            visited.add(neighborPositionString);
+
+            queue.enqueue({
+                row: neighborRow,
+                col: neighborCol,
+            });
+        }
     }
 };
 
-const floodFill = (row, col, newColor, image) => {
-    const colorToReplace = image[row][col];
+const floodFill = (image, startRow, startCol, newColor) => {
+    const colorToReplace = image[startRow][startCol];
     const visited = new Set();
 
-    replaceColorOfConnectedComponent(image, row, col, colorToReplace, newColor, visited);
+    replaceColorOfConnectedComponent(image, startRow, startCol, colorToReplace, newColor, visited);
 
     return image;
 };
