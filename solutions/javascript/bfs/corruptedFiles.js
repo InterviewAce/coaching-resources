@@ -10,7 +10,41 @@ You must return the minimum depth that your new engineer must go through to find
 
 const { Queue } = require('../../../utils/queue');
 
-// TODO: write your code here
+const SOME_FILES_ARE_MISSING = -1;
+
+const getMinDepthToFindAllFiles = (directoryStructure, requiredFiles, startDirectory) => {
+    const requiredFilesSet = new Set(requiredFiles);
+
+    const queue = new Queue();
+    queue.enqueue({
+        directoryName: startDirectory,
+        depth: 0,
+    });
+
+    while (queue.size() > 0) {
+        // Remove node
+        const { directoryName, depth } = queue.dequeue();
+
+        // Process node
+        console.log(directoryName);
+        if (requiredFilesSet.has(directoryName)) requiredFilesSet.delete(directoryName);
+        if (requiredFilesSet.size === 0) return depth;
+
+        // Add neighbors
+        const isFolder = directoryStructure.hasOwnProperty(directoryName);
+        if (!isFolder) continue;
+
+        const children = directoryStructure[directoryName];
+        for (const childDirectoryName of children) {
+            queue.enqueue({
+                directoryName: childDirectoryName,
+                depth: depth + 1,
+            });
+        }
+    }
+
+    return SOME_FILES_ARE_MISSING;
+};
 
 const directoryStructure = {
     A: ['B', 'C'],
