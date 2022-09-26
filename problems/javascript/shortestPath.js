@@ -2,6 +2,8 @@
 Given an array of edges of an undirected graph and two nodes, return the length of the shortest path between these two nodes. If no such path exists, return -1. Note that the length of a path is the number of edges in the path, not the number of nodes.
 */
 
+const { Queue } = require('../../../utils/queue');
+
 // TODO: write your code here
 
 const edges = [

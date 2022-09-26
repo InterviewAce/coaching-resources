@@ -8,6 +8,8 @@ You'll be given a list of required files, a hash map that maps directory names t
 You must return the minimum depth that your new engineer must go through to find all of the required files. You can assume that this is structured like a normal file system (it's impossible that inside of directory A you have directory B, but inside of directory B you have directory A).
 */
 
+const { Queue } = require('../../../utils/queue');
+
 // TODO: write your code here
 
 const directoryStructure = {

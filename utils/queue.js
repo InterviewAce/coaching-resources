@@ -28,3 +28,5 @@ class Queue {
         return this.endIdx - this.startIdx + 1;
     }
 }
+
+module.exports = { Queue };
