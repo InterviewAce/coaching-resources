@@ -15,5 +15,5 @@ const startNode = 'w';
 const targetNode = 'z';
 
 console.log(`Your answer: ${getShortestPathLength(edges, startNode, targetNode)}`);
-console.log(`Correct answer: {2}`);
+console.log(`Correct answer: ${2}`);
 console.log();
