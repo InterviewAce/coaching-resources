@@ -8,7 +8,40 @@ You'll be given a list of required files, a hash map that maps directory names t
 You must return the minimum depth that your new engineer must go through to find all of the required files. You can assume that this is structured like a normal file system (it's impossible that inside of directory A you have directory B, but inside of directory B you have directory A).
 """
 
-# TODO: write your code here
+from collections import deque
+from tracemalloc import start
+
+SOME_FILES_ARE_MISSING = -1
+
+def get_min_depth_to_find_all_files(directory_structure, required_files, start_directory):
+    required_files_set = set(required_files)
+
+    queue = deque()
+    start_node = (start_directory, 0)
+    queue.append(start_node)
+
+    while queue:
+        print(queue)
+        directory_name, depth = queue.popleft()
+        print(directory_name in directory_structure)
+        print(directory_structure.keys())
+
+        if directory_name in required_files_set:
+            required_files_set.remove(directory_name)
+        
+        if len(required_files_set) == 0:
+            return depth
+
+        is_folder = directory_name in directory_structure
+        if not is_folder:
+            continue
+
+        children = directory_structure[directory_name]
+        for child_directory_name in children:
+            child_node = (child_directory_name, depth + 1)
+            queue.append(child_node)
+
+    return SOME_FILES_ARE_MISSING
 
 directory_structure = {
     "A": ["B", "C"],
