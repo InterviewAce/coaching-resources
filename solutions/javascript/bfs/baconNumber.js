@@ -4,32 +4,6 @@ You'll be given an actor's name as your input, and you must return that actor's 
 
 const { Queue } = require('../../../utils/queue');
 
-const getBaconNumber = (actor) => {
-    const queue = new Queue();
-    queue.enqueue([actor, 0]);
-
-    const visited = new Set();
-
-    while (queue.size() > 0) {
-        const [actorName, distanceFromStart] = queue.dequeue();
-
-        // Process node
-        visited.add(actorName);
-
-        if (actorName === 'Kevin Bacon') {
-            return distanceFromStart;
-        }
-
-        const neighbors = getActorsWhoHaveWorkedWith(actorName);
-        for (const neighbor of neighbors) {
-            if (visited.has(neighbor)) continue;
-            visited.add(neighbor);
-
-            queue.enqueue([neighbor, distanceFromStart + 1]);
-        }
-    }
-};
-
 const actorGraph = {
     'Kevin Bacon': ['Carly', 'Fred', 'Isabella'],
     Carly: ['Kevin Bacon'],
@@ -65,6 +39,32 @@ const getActorsWhoHaveWorkedWith = (actor) => {
     if (!actorGraph.hasOwnProperty(actor)) return [];
 
     return actorGraph[actor];
+};
+
+const getBaconNumber = (actor) => {
+    const queue = new Queue();
+    queue.enqueue([actor, 0]);
+
+    const visited = new Set();
+
+    while (queue.size() > 0) {
+        const [actorName, distanceFromStart] = queue.dequeue();
+
+        // Process node
+        visited.add(actorName);
+
+        if (actorName === 'Kevin Bacon') {
+            return distanceFromStart;
+        }
+
+        const neighbors = getActorsWhoHaveWorkedWith(actorName);
+        for (const neighbor of neighbors) {
+            if (visited.has(neighbor)) continue;
+            visited.add(neighbor);
+
+            queue.enqueue([neighbor, distanceFromStart + 1]);
+        }
+    }
 };
 
 console.log(`Your answer: ${getBaconNumber('Grace')}`);
