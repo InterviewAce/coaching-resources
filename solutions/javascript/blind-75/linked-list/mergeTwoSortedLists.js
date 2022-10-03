@@ -1,20 +1,23 @@
 const mergeTwoLists = (listOne, listTwo) => {
     const sentinel = new ListNode();
-    let previous = sentinel;
+    let tailOfMergedList = sentinel;
 
-    while (listOne && listTwo) {
-        if (listOne.val < listTwo.val) {
-            previous.next = listOne;
-            listOne = listOne.next;
+    let curNodeInListOne = listOne;
+    let curNodeInListTwo = listTwo;
+
+    while (curNodeInListOne && curNodeInListTwo) {
+        if (curNodeInListOne.val < curNodeInListTwo.val) {
+            tailOfMergedList.next = curNodeInListOne;
+            curNodeInListOne = curNodeInListOne.next;
         } else {
-            previous.next = listTwo;
-            listTwo = listTwo.next;
+            tailOfMergedList.next = curNodeInListTwo;
+            curNodeInListTwo = curNodeInListTwo.next;
         }
-        previous = previous.next;
+        tailOfMergedList = tailOfMergedList.next;
     }
 
-    if (listOne) previous.next = listOne;
-    if (listTwo) previous.next = listTwo;
+    if (curNodeInListOne) tailOfMergedList.next = curNodeInListOne;
+    if (curNodeInListTwo) tailOfMergedList.next = curNodeInListTwo;
 
     return sentinel.next;
 };
