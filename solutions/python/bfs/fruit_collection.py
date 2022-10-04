@@ -71,7 +71,7 @@ def get_max_reachable_fruit(trees):
     visited = set()
     max_fruit = 0
 
-    for tree_id in graph:
+    for tree_id in range(len(trees)):
         if tree_id in visited:
             continue
 

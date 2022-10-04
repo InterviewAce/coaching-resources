@@ -66,7 +66,7 @@ def get_largest_puddle_group_size(puddles, jump_size):
     visited = set()
     largest_puddle_group_size = 0
 
-    for puddle_id in graph:
+    for puddle_id in range(len(puddles)):
         if puddle_id in visited:
             continue
 
