@@ -1,6 +1,10 @@
+"""
+Given 3 inputs: a start city, an end city, and a list of roads, return the shortest path (as an array) from the start city to the end city.
+"""
+
 from collections import deque, defaultdict
 
-NO_VALID_PATH = []
+no_valid_path = []
 
 class CityNode:
     def __init__(self, city, distance_from_start, prev_city):
@@ -32,7 +36,8 @@ def get_shortest_path(start_city, end_city, roads):
     graph = build_graph(roads)
 
     queue = deque()
-    queue.append(CityNode(start_city, 0, None))
+    start_node = CityNode(start_city, 0, None)
+    queue.append(start_node)
 
     visited = set()
     ideal_prev_city_map = {}
@@ -60,24 +65,23 @@ def get_shortest_path(start_city, end_city, roads):
             if neighbor_city in visited:
                 continue
         
-            queue.append(CityNode(neighbor_city, distance_from_start + 1, city))
+            neighbor_node = CityNode(neighbor_city, distance_from_start + 1, city)
+            queue.append(neighbor_node)
 
     if end_city not in ideal_prev_city_map:
-        return NO_VALID_PATH
+        return no_valid_path
 
     return construct_path(start_city, end_city, ideal_prev_city_map)
 
 start_city = 5
 end_city = 10
-roads = [
-    [5, 7],
-    [5, 3],
-    [7, 6],
-    [7, 4],
-    [3, 9],
-    [6, 4],
-    [4, 10],
-    [4, 9],
-]
+roads = [[5,7], [5,3], [7,6], [7,4], [3,9], [6,4], [4,10], [4,9]]
 
-print(get_shortest_path(start_city, end_city, roads))
+print(f"Your answer: {get_shortest_path(start_city, end_city, roads)}")
+print(f"Correct answer: {[5,7,4,10]}")
+print()
+
+
+
+
+
