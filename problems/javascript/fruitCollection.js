@@ -6,6 +6,8 @@ You'll be given a list of trees, where each tree contains an x-coordinate, a y-c
 You should return the maximum amount of fruit that the monkey can obtain while staying within one group of trees (i.e. one set of trees that he can jump between).
 */
 
+const { Queue } = require('../../../utils/queue');
+
 // TODO: write your code here
 
 const trees = [

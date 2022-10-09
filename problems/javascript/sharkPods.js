@@ -6,6 +6,8 @@ Additionally, these sharks are highly respectful creatures. So, if shark 1 belie
 Given a list of smaller arrays representing sharks (e.g. [[2,4]] means we have one shark with a tooth size of 2 and a fin size of 4), return the number of pods that these sharks will form.
 */
 
+const { Queue } = require('../../../utils/queue');
+
 // TODO: write your code here
 
 const sharks = [

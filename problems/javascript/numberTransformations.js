@@ -6,6 +6,8 @@ An operation can be one of two things:
 -You can take your current number and multiply it by any number from multiplicativeNums.
 */
 
+const { Queue } = require('../../../utils/queue');
+
 // TODO: write your code here
 
 const startNum = 3;
@@ -21,5 +23,5 @@ console.log(
         multiplicativeNums,
     )}`,
 );
-console.log(`Correct answer: {5}`);
+console.log(`Correct answer: ${5}`);
 console.log();

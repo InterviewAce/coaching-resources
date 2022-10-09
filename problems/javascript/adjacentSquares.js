@@ -4,6 +4,8 @@ We have a series of squares in a 2D plane, and each has a side length of 1. We w
 Each square will be represented as an x-y pair which denotes the center of the circle (e.g. [0,0] would be a circle that is centered at 0 and has a side length of 1). As an input, you'll be given an array of such squares (e.g. [[0,0], [1,1]]). You should return the size of the largest group of adjacent squares.
 */
 
+const { Queue } = require('../../../utils/queue');
+
 // TODO: write your code here
 
 const squares = [

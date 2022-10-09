@@ -4,6 +4,8 @@ There are many religious fishermen at sea. Two fishermen will work together in a
 You'll be given an array where each element represents a fisherman (e.g. [['christianity', 'Johnny Morris']] means we have 1 fisherman whose religion is 'christianity' and whose fishing rod is 'Johnny Morris'). You must return the size of the largest squad of fishermen.
 */
 
+const { Queue } = require('../../../utils/queue');
+
 // TODO: write your code here
 
 const fishermen = [

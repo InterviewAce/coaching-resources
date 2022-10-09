@@ -8,6 +8,8 @@ Additionally, it is okay to use the have the same character more than once as lo
 Given this matrix of colors, you should return the length of the shortest sequence that forms a rainbow.
 */
 
+const { Queue } = require('../../../utils/queue');
+
 // TODO: write your code here
 
 const colors = [
