@@ -9,14 +9,17 @@ const invalidTransactions = (transactions) => {
         const [name, timeString, amount, city] = transaction.split(',');
         const time = parseInt(timeString);
 
-        const transactionsAtTime = transactionMap.has(time) ? transactionMap.get(time) : new Map();
-        const transactionsAtTimeWithSameName = transactionsAtTime.has(name)
-            ? transactionsAtTime.get(name)
+        const transactionsAtCurTime = transactionMap.has(time)
+            ? transactionMap.get(time)
+            : new Map();
+        const transactionsAtCurTimeWithSameName = transactionsAtCurTime.has(name)
+            ? transactionsAtCurTime.get(name)
             : new Set();
 
-        transactionsAtTimeWithSameName.add(city);
-        transactionsAtTime.set(name, transactionsAtTimeWithSameName);
-        transactionMap.set(time, transactionsAtTime);
+        transactionsAtCurTimeWithSameName.add(city);
+        transactionsAtCurTime.set(name, transactionsAtCurTimeWithSameName);
+
+        transactionMap.set(time, transactionsAtCurTime);
     }
 
     for (let i = 0; i < transactions.length; i += 1) {
@@ -33,12 +36,17 @@ const invalidTransactions = (transactions) => {
             time <= curTransactionTime + RANGE_SIZE;
             time += 1
         ) {
-            const txnAtTime = transactionMap.has(time) ? transactionMap.get(time) : new Map();
-            const txnAtTimeWithName = txnAtTime.has(name) ? txnAtTime.get(name) : new Set();
+            const transactionsAtCurTime = transactionMap.has(time)
+                ? transactionMap.get(time)
+                : new Map();
+            const transactionsAtCurTimeWithSameName = transactionsAtCurTime.has(name)
+                ? transactionsAtCurTime.get(name)
+                : new Set();
 
-            const hasMultipleOverlappingTransactions = txnAtTimeWithName.size > 1;
+            const hasMultipleOverlappingTransactions = transactionsAtCurTimeWithSameName.size > 1;
             const hasSingleOverlappingTransactionWithSameName =
-                txnAtTimeWithName.size === 1 && !txnAtTimeWithName.has(city);
+                transactionsAtCurTimeWithSameName.size === 1 &&
+                !transactionsAtCurTimeWithSameName.has(city);
 
             const hasOverlappingTransactionWithSameName =
                 hasMultipleOverlappingTransactions || hasSingleOverlappingTransactionWithSameName;
