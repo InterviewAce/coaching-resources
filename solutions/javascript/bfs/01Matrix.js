@@ -61,8 +61,7 @@ const getNeighborPositions = (matrix, row, col) => {
     for (const adjacentPosition of adjacentPositions) {
         const [adjacentPositionRow, adjacentPositionCol] = adjacentPosition;
 
-        if (!isInBounds(matrix, adjacentPositionRow, adjacentPositionCol))
-            continue;
+        if (!isInBounds(matrix, adjacentPositionRow, adjacentPositionCol)) continue;
 
         neighbors.push(adjacentPosition);
     }
@@ -97,8 +96,7 @@ const getDistanceToNearestZero = (matrix, startRow, startCol) => {
                 distanceFromStart + 1,
             );
 
-            const neighborPositionString =
-                neighborCellDistancePair.getPositionString();
+            const neighborPositionString = neighborCellDistancePair.getPositionString();
             if (visited.has(neighborPositionString)) continue;
 
             visited.add(neighborPositionString);
@@ -120,11 +118,7 @@ const updateMatrix = (matrix) => {
             let distanceToNearestZero = 0;
 
             if (curValue === 1) {
-                distanceToNearestZero = getDistanceToNearestZero(
-                    matrix,
-                    row,
-                    col,
-                );
+                distanceToNearestZero = getDistanceToNearestZero(matrix, row, col);
             }
 
             distanceToNearestZeroGrid[row][col] = distanceToNearestZero;
@@ -136,15 +130,39 @@ const updateMatrix = (matrix) => {
 
 /* Multi-sourced BFS solution, passes on LeetCode */
 const directions = [
-    [0, 1],
-    [1, 0],
-    [0, -1],
     [-1, 0],
+    [0, -1],
+    [1, 0],
+    [0, 1],
 ];
 
-const getPositionString = (row, col) => `${row}, ${col}`;
+const getLocationString = (location) => {
+    const { row, col } = location;
 
-const createArrayOfSize = (numRows, numCols, fillValue = undefined) => {
+    return `${row}, ${col}`;
+};
+
+const getTargetCellLocations = (matrix, targetValue) => {
+    const targetCellLocations = [];
+
+    const numRows = matrix.length;
+    const numCols = matrix[0].length;
+
+    for (let row = 0; row < numRows; row += 1) {
+        for (let col = 0; col < numCols; col += 1) {
+            if (matrix[row][col] === targetValue) {
+                targetCellLocations.push({
+                    row,
+                    col,
+                });
+            }
+        }
+    }
+
+    return targetCellLocations;
+};
+
+const create2dArrayOfSize = (numRows, numCols, fillValue = undefined) => {
     const array = new Array(numRows);
 
     for (let row = 0; row < numRows; row += 1) {
@@ -154,32 +172,18 @@ const createArrayOfSize = (numRows, numCols, fillValue = undefined) => {
     return array;
 };
 
-const getCellsWithZero = (matrix, numRows, numCols) => {
-    const cellsWithZero = [];
-
-    for (let row = 0; row < numRows; row += 1) {
-        for (let col = 0; col < numCols; col += 1) {
-            const cell = matrix[row][col];
-
-            if (cell === 0) cellsWithZero.push([row, col]);
-        }
-    }
-
-    return cellsWithZero;
-};
-
 const isInBounds = (matrix, row, col) => {
     const numRows = matrix.length;
     const numCols = matrix[0].length;
 
-    const rowInBounds = row >= 0 && row < numRows;
-    const colInBounds = col >= 0 && col < numCols;
+    const isRowInBounds = row >= 0 && row < numRows;
+    const isColInBounds = col >= 0 && col < numCols;
 
-    return rowInBounds && colInBounds;
+    return isRowInBounds && isColInBounds;
 };
 
-const getNeighbors = (matrix, row, col) => {
-    const neighbors = [];
+const getNeighborLocations = (matrix, row, col) => {
+    const neighborLocations = [];
 
     for (const direction of directions) {
         const [rowChange, colChange] = direction;
@@ -187,65 +191,59 @@ const getNeighbors = (matrix, row, col) => {
         const newRow = row + rowChange;
         const newCol = col + colChange;
 
-        if (!isInBounds(matrix, newRow, newCol)) continue;
+        if (!isInBounds(matrix, newRow, newCol) || matrix[newRow][newCol] === 0) continue;
 
-        neighbors.push([newRow, newCol]);
+        neighborLocations.push({ row: newRow, col: newCol });
     }
 
-    return neighbors;
+    return neighborLocations;
 };
 
 const updateMatrix = (matrix) => {
+    if (matrix.length === 0) return matrix;
+
     const numRows = matrix.length;
     const numCols = matrix[0].length;
-
-    const distanceToNearestZero = createArrayOfSize(numRows, numCols, Infinity);
-
-    const cellsWithZero = getCellsWithZero(matrix, numRows, numCols);
 
     const queue = new Queue();
     const visited = new Set();
 
-    for (cell of cellsWithZero) {
-        const [row, col] = cell;
+    const distanceToNearestZeroMatrix = create2dArrayOfSize(numRows, numCols, 0);
+    const zeroCellLocations = getTargetCellLocations(matrix, 0);
+
+    for (const zeroCellLocation of zeroCellLocations) {
         queue.enqueue({
-            row,
-            col,
-            distanceSoFar: 0,
+            ...zeroCellLocation,
+            distanceFromZero: 0,
         });
 
-        const cellString = getPositionString(row, col);
-        visited.add(cellString);
+        const zeroCellLocationString = getLocationString(zeroCellLocation);
+        visited.add(zeroCellLocationString);
     }
 
-    while (!queue.isEmpty()) {
+    while (queue.size() > 0) {
         // Remove node
-        const { row, col, distanceSoFar } = queue.dequeue();
+        const { row, col, distanceFromZero } = queue.dequeue();
 
         // Process node
-        if (matrix[row][col] === 0) distanceToNearestZero[row][col] = 0;
-        if (matrix[row][col] === 1)
-            distanceToNearestZero[row][col] = distanceSoFar;
+        // We know that we have a 1 that is unvisited, which means we have just found the
+        // length of the shortest path to that 1
+        distanceToNearestZeroMatrix[row][col] = distanceFromZero;
 
         // Add neighbors
-        const neighbors = getNeighbors(matrix, row, col);
-        for (const neighbor of neighbors) {
-            const [neighborRow, neighborCol] = neighbor;
-            const neighborPositionString = getPositionString(
-                neighborRow,
-                neighborCol,
-            );
+        const neighborLocations = getNeighborLocations(matrix, row, col);
+        for (const neighborLocation of neighborLocations) {
+            const neighborLocationString = getLocationString(neighborLocation);
 
-            if (visited.has(neighborPositionString)) continue;
-            visited.add(neighborPositionString);
+            if (visited.has(neighborLocationString)) continue;
+            visited.add(neighborLocationString);
 
             queue.enqueue({
-                row: neighborRow,
-                col: neighborCol,
-                distanceSoFar: distanceSoFar + 1,
+                ...neighborLocation,
+                distanceFromZero: distanceFromZero + 1,
             });
         }
     }
 
-    return distanceToNearestZero;
+    return distanceToNearestZeroMatrix;
 };
