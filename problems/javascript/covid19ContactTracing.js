@@ -6,7 +6,7 @@ For example, if Alice has a friend of a friend of a friend who has COVID-19, the
 You'll be given a person number, an array of friendships, and an array of individuals infected with COVID-19. The friendships array will contain a bunch of smaller arrays of size 2. For each smaller array [a,b], we conclude that a is friends with b and b is friends with a. You must return the smallest degree of separation between the given person and an individual who has COVID-19, or -1 if the given person has no connection to an infected individual.
 */
 
-const { Queue } = require('../../../utils/queue');
+const { Queue } = require('../../utils/queue');
 
 // TODO: write your code here
 

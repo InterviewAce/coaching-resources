@@ -8,7 +8,7 @@ If 2 bishops can attack each other (i.e. they are in the same diagonal), we'll s
 Given the input list of bishops, return true if all the bishops are part of the same group of warring bishops. Otherwise, return false.
 */
 
-const { Queue } = require('../../../utils/queue');
+const { Queue } = require('../../utils/queue');
 
 // TODO: write your code here
 
