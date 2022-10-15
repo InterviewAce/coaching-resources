@@ -3,9 +3,7 @@ from collections import defaultdict
 def build_graph(edges):
     graph = defaultdict(list)
 
-    for edge in edges:
-        node_one, node_two = edge
-
+    for node_one, node_two in edges:
         graph[node_one].append(node_two)
         graph[node_two].append(node_one)
 
