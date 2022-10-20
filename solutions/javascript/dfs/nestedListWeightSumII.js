@@ -1,3 +1,6 @@
+/*
+Note: that the test case “[[1,1],2,[1,1],[[[[]]]]]” is weird, so your code will probably fail that case. Don't worry about passing that case, if that's the only case you fail, then you're fine (our solution also fails against this case).
+*/
 const getMaxDepth = (nestedList) => {
     let maxDepth = 1;
 
