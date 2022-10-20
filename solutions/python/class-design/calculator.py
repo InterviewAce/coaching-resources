@@ -58,7 +58,7 @@ class Calculator:
 
             return evaluationResult
         else:
-            if not type(key) is int and not key.isdigit():
+            if type(key) is not int and not key.isdigit():
                 print("Error: invalid input, you must enter 0-9, '+', '-', '=', or 'c'")
                 return
 
