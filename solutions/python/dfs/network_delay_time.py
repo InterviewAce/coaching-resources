@@ -1,3 +1,9 @@
+"""
+This solution is a bit odd. Our Python solution hits "Time Limit Exceeded", but our JavaScript
+solution (which does exactly the same thing) passes on LeetCode. So, if you hit TLE with Python,
+feel free to just move on.
+"""
+
 from collections import defaultdict
 
 CANNOT_REACH_ALL_NODES = -1
@@ -6,7 +12,9 @@ class Solution:
     def build_graph(self, edges):
         graph = defaultdict(dict)
 
-        for src, dest, weight in edges:
+        for edge in edges:
+            src, dest, weight = edge
+
             graph[src][dest] = weight
 
         return graph
@@ -23,9 +31,10 @@ class Solution:
         if node not in graph:
             return
 
-        neighbors = graph[node]
+        neighbors = graph[node] # Note that graph[node] is a dict
         for neighbor in neighbors:
-            time_to_reach_neighbor = neighbors[neighbor]
+            time_to_reach_neighbor = graph[node][neighbor]
+
             self.find_min_time_to_reach_nodes_in_component(
                 graph,
                 neighbor,
@@ -47,3 +56,7 @@ class Solution:
             return CANNOT_REACH_ALL_NODES
 
         return min_time_to_reach_all_nodes
+
+    
+
+    

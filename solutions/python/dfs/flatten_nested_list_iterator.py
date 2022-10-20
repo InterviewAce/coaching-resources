@@ -1,39 +1,29 @@
 class NestedIterator:
-    def __init__(self, nestedList):
-        """
-        Initialize your data structure here.
-        :type nestedList: List[NestedInteger]
-        """
-        self.flattenedList = self.flattenList(nestedList)
-        self.nextPosition = 0
+    def __init__(self, nested_list: [NestedInteger]):
+        self.flattened_list = self.flatten_list(nested_list)
+        self.next_position = 0
 
-    def flattenList(self, nestedList):
-        flattenedList = []
+    def flatten_list(self, nested_list):
+        flattened_list = []
 
-        for nestedInteger in nestedList:
-            if nestedInteger.isInteger():
-                integer = nestedInteger.getInteger()
-                flattenedList.append(integer)
+        for nested_integer in nested_list:
+            if nested_integer.isInteger():
+                integer = nested_integer.getInteger()
+                flattened_list.append(integer)
             else:
-                nestedIntegerList = nestedInteger.getList()
-                flattenedNestedIntegerList = self.flattenList(nestedIntegerList)
+                nested_integer_list = nested_integer.getList()
+                flattened_nested_integer_list = self.flatten_list(nested_integer_list)
 
-                for integer in flattenedNestedIntegerList:
-                    flattenedList.append(integer)
+                for integer in flattened_nested_integer_list:
+                    flattened_list.append(integer)
 
-        return flattenedList
+        return flattened_list
 
-    def next(self):
-        """
-        :rtype: int
-        """
-        integerToReturn = self.flattenedList[self.nextPosition]
-        self.nextPosition += 1
-
-        return integerToReturn
-
-    def hasNext(self):
-        """
-        :rtype: bool
-        """
-        return self.nextPosition < len(self.flattenedList)
+    def hasNext(self) -> bool:
+        return self.next_position < len(self.flattened_list)
+    
+    def next(self) -> int:
+        integer_to_return = self.flattened_list[self.next_position]
+        self.next_position += 1
+        
+        return integer_to_return
