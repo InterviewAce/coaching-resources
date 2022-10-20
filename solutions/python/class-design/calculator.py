@@ -1,3 +1,31 @@
+'''
+Imagine a calculator that has the following characters: 0-9, +, -, =, and the “c” symbol. 
+This functions like an old school calculator, so when you press a number, that's the
+only thing you see on the screen. When you press the equals sign, the calculator computes
+the specified values and returns the result. The "c" key clears the screen. Write a function
+`keyPress` in a class `Calculator` that takes in a key and returns what would appear on the 
+calculator screen.
+
+Example usage:
+const calc = new Calculator();
+calc.keyPress('5');
+calc.keyPress('+');
+calc.keyPress('7');
+console.log(calc.keyPress('=')); // This should print 12
+calc.keyPress('-');
+calc.keyPress('3');
+console.log(calc.keyPress('=')); // This should print 9, since we stored the previous result of 12
+'''
+
+'''
+Instructions:
+There is no starter code for this problem. Simply create your own .js file and write everything
+from scratch. There are tests at the bottom of this file, and you should be able to copy
+those over to your new file to test your solution (as long as you name your class `Calculator`
+and you expose a function `keyPress`, then the tests should work). Our solution is also
+included below for you to reference.
+'''
+
 ADD = '+'
 SUBTRACT = '-'
 EVALUATE = '='

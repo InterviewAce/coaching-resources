@@ -24,22 +24,6 @@ from scratch. There are tests at the bottom of this file, and you should be able
 those over to your new file to test your solution (as long as you name your class `Calculator`
 and you expose a function `keyPress`, then the tests should work). Our solution is also
 included below for you to reference.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 */
 
 const ADD = '+';
@@ -130,9 +114,7 @@ class Calculator {
             default:
                 const keyAsString = key.toString();
                 if (!isSequenceOfDigits(keyAsString)) {
-                    console.log(
-                        "Error: invalid input, you must enter 0-9, '+', '-', '=', or 'c'",
-                    );
+                    console.log("Error: invalid input, you must enter 0-9, '+', '-', '=', or 'c'");
                     return;
                 }
 
