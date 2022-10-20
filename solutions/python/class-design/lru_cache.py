@@ -65,7 +65,7 @@ class LRUCache:
 
         return node.val
 
-    def deleteLeastRecentlyUsed(self):
+    def delete_least_recently_used(self):
         least_recently_used_node = self.recently_used_keys.tail
 
         self.recently_used_keys.delete(least_recently_used_node)
@@ -85,7 +85,7 @@ class LRUCache:
         else:
             # If the cache is full, delete the least recently used key
             if self.size == self.capacity:
-                self.deleteLeastRecentlyUsed()
+                self.delete_least_recently_used()
 
             self.size += 1
 
