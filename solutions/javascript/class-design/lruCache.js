@@ -89,6 +89,7 @@ class LRUCache {
             this.recentlyUsedKeys.delete(oldNode);
         } else {
             /*
+            If the cache is full, delete the least recently used key
              */
             if (this.size === this.capacity) {
                 this.deleteLeastRecentlyUsed();
