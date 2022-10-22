@@ -153,6 +153,7 @@ const mergeKLists = (lists) => {
 
     while (smallestRemainingNodePerArray.size() > 0) {
         const smallestRemainingNode = smallestRemainingNodePerArray.pop();
+
         tailOfMergedList.next = smallestRemainingNode;
         tailOfMergedList = tailOfMergedList.next;
 
