@@ -40,13 +40,13 @@ class Solution:
         elements_in_spiral_order = []
         visited = set()
 
-        cur_row = 0
-        cur_col = 0
+        row = 0
+        col = 0
 
         cur_direction_idx = RIGHT
 
-        elements_in_spiral_order.append(matrix[cur_row][cur_col])
-        visited.add((cur_row, cur_col))
+        elements_in_spiral_order.append(matrix[row][col])
+        visited.add((row, col))
 
         num_rows = len(matrix)
         num_cols = len(matrix[0])
@@ -54,18 +54,15 @@ class Solution:
         num_elements_in_matrix = num_rows * num_cols
 
         while len(visited) < num_elements_in_matrix:
-            new_row, new_col = self.move_until_hit_visited_or_oob(
+            row, col = self.move_until_hit_visited_or_oob(
                 matrix,
-                cur_row,
-                cur_col,
+                row,
+                col,
                 cur_direction_idx,
                 visited,
                 elements_in_spiral_order,
             )
 
             cur_direction_idx = get_next_direction_idx(cur_direction_idx)
-
-            cur_row = new_row
-            cur_col = new_col
-
+            
         return elements_in_spiral_order
