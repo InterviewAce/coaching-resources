@@ -25,23 +25,10 @@ class Solution:
             else:
                 right_idx -= 1
 
-    def three_sum(self, nums):
-        """
-        First sort the array. For each element in the array, use twoSum to find two values that sum up to the complement.  
-        """
-        result = []
-        nums.sort()
-
-        # a + b + c = 0 || a + b = -c
-        for i in range(len(nums) - 2):
-            if i > 0 and nums[i] == nums[i - 1]:
-                continue
-
-            self.two_sum(nums, i + 1, -nums[i], result)
-
-        return result
-
     def threeSum(self, nums: List[int]) -> List[List[int]]:
+        """
+        First sort the array. For each element in the array, use twoSum to find two values that sum up to the complement. 
+        """
         result = []
         nums.sort()
 
