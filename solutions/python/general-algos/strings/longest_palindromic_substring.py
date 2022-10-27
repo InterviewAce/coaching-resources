@@ -1,6 +1,14 @@
 
 
 class Solution:
+    def is_still_valid_palindrome(self, string, left_idx, right_idx):
+        if left_idx < 0:
+            return False
+        if right_idx >= len(string):
+            return False
+
+        return string[left_idx] == string[right_idx]
+    
     def get_longest_palindrome_centered_at(self, string, left_start_idx, right_start_idx):
         left_idx = left_start_idx
         right_idx = right_start_idx
@@ -13,14 +21,6 @@ class Solution:
         longest_palindrome_end_idx = right_idx - 1
 
         return (longest_palindrome_start_idx, longest_palindrome_end_idx)
-
-    def is_still_valid_palindrome(self, string, left_idx, right_idx):
-        if left_idx < 0:
-            return False
-        if right_idx >= len(string):
-            return False
-
-        return string[left_idx] == string[right_idx]
 
     def longestPalindrome(self, string: str) -> str:
         longest_palindrome_start_idx = 0
