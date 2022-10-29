@@ -40,11 +40,11 @@ class Solution:
         cur_position_row, cur_position_col = cur_position
         target_position_row, target_position_col = target_position
 
-        is_in_bounds = cur_position_row <= target_row and cur_position_col <= target_col
+        is_in_bounds = cur_position_row <= target_position_row and cur_position_col <= target_position_col
         if not is_in_bounds:
             return 0
 
-        is_target_position = cur_position_row == target_row and cur_position_col == target_col
+        is_target_position = cur_position_row == target_position_row and cur_position_col == target_position_col
         if is_target_position:
             return 1
 
