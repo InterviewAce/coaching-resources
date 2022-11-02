@@ -73,7 +73,7 @@ Step 4:
   0      1      2     3     4   
         LMR
 left_idx, mid_idx, and right_idx are all 1
-mid_val is falase, so we move right_idx
+mid_val is false, so we move right_idx
 boundary_idx = 2
 
 Step 5:
