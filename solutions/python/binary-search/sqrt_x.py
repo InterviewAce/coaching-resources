@@ -37,6 +37,20 @@ def get_mid_idx(left_idx, right_idx):
 
     return mid_idx
 
+"""
+Suppose x = 10
+
+Our candidates are:
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+We can transform these candidates into booleans based on the condition arr[i]
+is true if arr[i] * arr[i] <= x and false otherwise. That will produce the following:
+
+[true, true, true, false, false, false, false, false, false, false]
+
+Now, we need to find the last occurrence of a "true" which we can do using binary
+search
+"""
 class Solution:
     def mySqrt(self, x: int) -> int:
         if x == 0:
