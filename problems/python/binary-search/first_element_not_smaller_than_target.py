@@ -1,5 +1,7 @@
 """
-Given an array of integers sorted in increasing order and a target, find the index of the first element in the array that is larger than or equal to the target. Assume that it is guaranteed to find a satisfying number.
+Given an array of integers sorted in increasing order and a target, find the 
+index of the first element in the array that is larger than or equal to the 
+target. Assume that it is guaranteed to find a satisfying number.
 """
 
 # TODO: write your code here

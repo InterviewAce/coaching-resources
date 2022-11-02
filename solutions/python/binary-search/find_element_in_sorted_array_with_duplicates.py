@@ -37,6 +37,20 @@ def get_mid_idx(left_idx, right_idx):
 
     return mid_idx
 
+"""
+arr = [1, 3, 3, 3, 3, 6, 10, 10, 10, 100]
+target = 3
+
+If we ask ourselves, for each index, is arr[index] >= target? then we can
+construct our desired boolean area. In our example, we would get:
+
+arr = [false, true, true, true, true, true, true, true, true, true]
+Then we use our standard binary search template.
+
+the binary search code below is effectively finding the first "true" in this array.
+note that we do not explicitly construct the boolean array. at each index, we just use
+arr[i] >= target to figure out what the boolean value WOULD BE at the current position.
+"""
 def find_first_occurrence(arr, target):
     last_idx = len(arr) - 1
 
