@@ -73,14 +73,14 @@ Step 4:
   0      1      2     3     4   
         LMR
 left_idx, mid_idx, and right_idx are all 1
-mid_val is true, so we update boundary_idx and move right_idx
-boundary_idx = 1
+mid_val is falase, so we move right_idx
+boundary_idx = 2
 
 Step 5:
 [false, false, true, true, true]
   0      1      2     3     4   
   R      L
-we now break out of the while loop and return boundary_idx which is 1
+we now break out of the while loop and return boundary_idx which is 2
 
 """
 
