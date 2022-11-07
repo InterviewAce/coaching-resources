@@ -48,7 +48,7 @@ def get_bacon_number(actor):
     start_node = (actor, 0)
 
     queue.append(start_node)
-    visited.add(start_node)
+    visited.add(actor)
 
     while queue:
         actor_name, distance_from_start = queue.popleft()
