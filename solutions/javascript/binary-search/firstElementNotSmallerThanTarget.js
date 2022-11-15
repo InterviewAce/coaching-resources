@@ -5,6 +5,22 @@ const getMidIdx = (leftIdx, rightIdx) => {
     return midIdx;
 };
 
+/*
+arr = [1, 3, 3, 5, 8, 8, 10]
+target = 2
+
+we can transform arr into a boolean array. we'll set index i
+to be true if arr[i] >= target and false otherwise. then, we
+can use the binary search algorithm to find the first index
+where the value is true.
+
+arr = [false, true, true, true, true, true, true]
+
+the binary search code below is effectively finding the first "true" in this array.
+note that we do not explicitly construct the boolean array. at each index, we just use
+arr[i] >= target to figure out what the boolean value WOULD BE at the current position.
+*/
+
 function firstNotSmaller(arr, target) {
     const lastIdx = arr.length - 1;
 

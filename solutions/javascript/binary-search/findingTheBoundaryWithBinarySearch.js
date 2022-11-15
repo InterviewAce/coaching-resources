@@ -7,6 +7,52 @@ const getMidIdx = (leftIdx, rightIdx) => {
     return midIdx;
 };
 
+/*
+How this code works on an example:
+
+Start:
+[false, false, true, true, true]
+  0      1      2     3     4   
+  L                         R
+boundary_idx = -1
+
+Step 1:
+[false, false, true, true, true]
+  0      1      2     3     4   
+  L             M           R
+mid_val = true so we update boundary_idx
+boundary_idx = 2
+
+Step 2:
+[false, false, true, true, true]
+  0      1      2     3     4   
+  L      R
+we set right_idx to be mid_idx - 1
+boundary_idx = 2
+
+Step 3:
+[false, false, true, true, true]
+  0      1      2     3     4   
+  LM     R
+left_idx is 0 and mid_idx is 0
+mid_val is false so we set left_idx to be mid_idx + 1
+boundary_idx = 2
+
+Step 4:
+[false, false, true, true, true]
+  0      1      2     3     4   
+        LMR
+left_idx, mid_idx, and right_idx are all 1
+mid_val is false, so we move right_idx
+boundary_idx = 2
+
+Step 5:
+[false, false, true, true, true]
+  0      1      2     3     4   
+  R      L
+we now break out of the while loop and return boundary_idx which is 2
+*/
+
 function find_boundary(arr) {
     const lastIdx = arr.length - 1;
 
