@@ -2,7 +2,7 @@
 Given 3 inputs: a start city, an end city, and a list of roads, return the shortest path (as an array) from the start city to the end city.
 */
 
-const { Queue } = require('../../utils/queue');
+const { Queue } = require('../../../utils/queue');
 
 // TODO: write your code here
 

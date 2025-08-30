@@ -6,7 +6,7 @@ An operation can be one of two things:
 -You can take your current number and multiply it by any number from multiplicativeNums.
 */
 
-const { Queue } = require('../../utils/queue');
+const { Queue } = require('../../../utils/queue');
 
 // TODO: write your code here
 

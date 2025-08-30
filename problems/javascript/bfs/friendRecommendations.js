@@ -6,7 +6,7 @@ We'll write a simple algorithm: anyone who is a “friend of a friend” should 
 Each of our users will be represented by an ID (a number) in the range [0, n - 1] where n is the total number of users. You'll receive two pieces of information as input: a userId (this represents the user for whom we would like to provide friend recommendations) and an adjacency matrix. In our adjacency matrix, if matrix[r][c] = 1, then user r is friends with user c (and vice versa). Otherwise, matrix[r][c] should be 0. You should return a list of user IDs that are valid individuals for our given user's “People You May Know” section. This list can be in any order.
 */
 
-const { Queue } = require('../../utils/queue');
+const { Queue } = require('../../../utils/queue');
 
 // TODO: write your code here
 
