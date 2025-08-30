@@ -5,7 +5,7 @@ You need to convince them that they will NOT need to go that deep. To do so, you
 
 You'll be given a list of required files, a hash map that maps directory names to a list of elements that are in that directory (these will either be directories themselves or filenames), and lastly you'll be given a string representing the directory that you start in.
 
-You must return the minimum depth that your new engineer must go through to find all of the required files. You can assume that this is structured like a normal file system (it's impossible that inside of directory A you have directory B, but inside of directory B you have directory A). If it is NOT possible to find all the required files in the given directory structure, return -1.
+You must return the minimum depth that your new engineer must go through to find all of the required files. You can assume that this is structured like a normal file system (it's impossible that inside of directory A you have directory B, but inside of directory B you have directory A). If it is NOT possible to find all the required files in the given directory structure, return -1. The depth of the root directory is 0.
 """
 
 # TODO: write your code here
@@ -33,6 +33,4 @@ directory_structure = {
 required_files = ["1.js", "2.js", "3.js", "4.js", "5.js", "6.js", "7.js", "8.js", "9.js"]
 root_directory = "A"
 
-print(f"Your answer: {get_min_depth_to_find_all_files(directory_structure, required_files, root_directory)}")
-print(f"Correct answer: {6}")
-print()
+print(f"Your an
