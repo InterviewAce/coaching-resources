@@ -33,4 +33,6 @@ directory_structure = {
 required_files = ["1.js", "2.js", "3.js", "4.js", "5.js", "6.js", "7.js", "8.js", "9.js"]
 root_directory = "A"
 
-print(f"Your an
+print(f"Your answer: {get_min_depth_to_find_all_files(directory_structure, required_files, root_directory)}")
+print(f"Correct answer: {6}")
+print()
